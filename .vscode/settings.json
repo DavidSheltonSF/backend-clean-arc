@@ -1,5 +1,15 @@
 {
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": true,
-    "python.languageServer": "Default"
+    "python.languageServer": "Default",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "storage",
+            "group": "meuSqlite",
+            "database": "${workspaceFolder:backend-clean-arq}/storage.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
 }

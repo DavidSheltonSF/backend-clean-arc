@@ -1,4 +1,5 @@
-***/__pycache__
+**/__pycache__
 venv
 comandos_criar_banco.txt0000
 storage.sqlite
+.pytest_cache

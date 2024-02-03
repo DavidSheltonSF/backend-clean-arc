@@ -25,5 +25,5 @@ repos:
         name: requirements
         entry: bash -c 'venv/bin/pip3 freeze > requirements.txt; git add requirements.txt'
         language: system
-        pass_filenames: false
+        pass_filenames: true
         stages: [commit]

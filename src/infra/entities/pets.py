@@ -10,10 +10,10 @@ class AnimalTypes(enum.Enum):
         enum (Enum): _description_
     """
 
-    dog = "dog"
-    cat = "cat"
-    fish = "fish"
-    turtle = "turtle"
+    DOG = "dog"
+    CAT = "cat"
+    FISH = "fish"
+    TURTLE = "turtle"
 
 
 class Pets(Base):

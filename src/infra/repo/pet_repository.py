@@ -1,3 +1,4 @@
+from typing import List
 from src.domain.models import Pets
 from src.infra.config import DBConnectionHandler
 from src.infra.entities import Pets as PetsModel
@@ -29,7 +30,7 @@ class PetRepository:
                 return Pets(
                     id=new_pet.id,
                     name=new_pet.name,
-                    specie=new_pet.specie.value,
+                    specie=new_pet.specie.name,
                     age=new_pet.age,
                     user_id=new_pet.user_id,
                 )
@@ -39,3 +40,58 @@ class PetRepository:
                 raise
             finally:
                 db_connection.session.close()
+
+    @classmethod
+    def select_pet(cls, pet_id: int = None, user_id: int = None) -> List[Pets]:
+        """Slect data in PetsEntity entity by id and/or user_id
+
+        Args:
+            pet_id (int, optional): Id of the pet registry. Defaults to None.
+            user_id (int, optional): Id of the owner. Defaults to None.
+
+        Returns:
+            List[Pets]: List with pets selected
+        """
+
+        try:
+
+            query_data = None
+
+            if pet_id and not user_id:
+
+                with DBConnectionHandler() as db_connection:
+                    data = (
+                        db_connection.session.query(PetsModel)
+                        .filter_by(id=pet_id)
+                        .one()
+                    )
+                    query_data = [data]
+
+            elif not pet_id and user_id:
+
+                with DBConnectionHandler() as db_connection:
+                    data = (
+                        db_connection.session.query(PetsModel)
+                        .filter_by(user_id=user_id)
+                        .all()
+                    )
+                    query_data = data
+
+            elif pet_id and user_id:
+
+                with DBConnectionHandler() as db_connection:
+                    data = (
+                        db_connection.session.query(PetsModel)
+                        .filter_by(id=pet_id, user_id=user_id)
+                        .one()
+                    )
+                    query_data = [data]
+
+            return query_data
+
+        except:
+            db_connection.session.rollback()
+            raise
+
+        finally:
+            db_connection.session.close()

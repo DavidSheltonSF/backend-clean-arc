@@ -47,7 +47,7 @@ class Pets(Base):
             and self.name == other.name
             and self.specie == other.specie
             and self.age == other.age
-            and self.user_id == other.user__id
+            and self.user_id == other.user_id
         ):
             return True
         return False

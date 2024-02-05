@@ -3,3 +3,4 @@ venv
 comandos_criar_banco.txt0000
 storage.sqlite
 .pytest_cache
+reset_tables.py

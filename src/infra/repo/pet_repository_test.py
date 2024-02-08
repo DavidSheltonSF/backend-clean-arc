@@ -83,11 +83,6 @@ def test_select_pet():
     query_pet2 = pet_repository.select_pet(user_id=user_id)
     query_pet3 = pet_repository.select_pet(pet_id=pet_id, user_id=user_id)
 
-    print(data)
-    print(query_pet1)
-    print(query_pet2)
-    print(query_pet3)
-
     assert data in query_pet1
     assert data in query_pet2
     assert data in query_pet3

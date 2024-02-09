@@ -1,11 +1,9 @@
 from faker import Faker
 from src.infra.test import UserRepositorySpy
-from src.infra.config import DBConnectionHandler
 from .register import RegisterUser
 
 
 faker = Faker()
-db_connection_handler = DBConnectionHandler()
 
 
 def test_register():
@@ -26,7 +24,7 @@ def test_register():
     assert user_repo.insert_user_params["password"] == attributes["password"]
 
     # testing outputs
-    assert response["Sucess"] is True
+    assert response["Success"] is True
     assert response["Data"]
 
 
@@ -47,5 +45,5 @@ def test_register_fail():
     assert not user_repo.insert_user_params  # test if it is {}
 
     # testing outputs
-    assert response["Sucess"] is False
+    assert response["Success"] is False
     assert response["Data"] is None

@@ -31,4 +31,4 @@ class RegisterUser(RegisterUserInterface):
         if validate_entry:
             response = self.user_repository.insert_user(name, password)
 
-        return {"Sucess": validate_entry, "Data": response}
+        return {"Success": validate_entry, "Data": response}

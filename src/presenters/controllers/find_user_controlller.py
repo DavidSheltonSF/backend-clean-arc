@@ -14,24 +14,30 @@ class FindUserController:
         """Method to call use case"""
 
         response = None
-
         if http_request.query:
             query_string_params = http_request.query.keys()
 
-            if "user_id" in query_string_params and "name" in query_string_params:
+            if "user_id" in query_string_params and "user_name" in query_string_params:
+                print("ABSDCARACHA")
                 user_id = http_request.query["user_id"]
-                user_name = http_request.query["name"]
+                user_name = http_request.query["user_name"]
                 response = self.find_user_use_case.by_id_and_name(
-                    user_id=user_id, name=user_name
+                    user_id=user_id, user_name=user_name
                 )
 
-            elif "user_id" in query_string_params and "name" not in query_string_params:
+            elif (
+                "user_id" in query_string_params
+                and "user_name" not in query_string_params
+            ):
                 user_id = http_request.query["user_id"]
                 response = self.find_user_use_case.by_id(user_id=user_id)
 
-            elif "user_id" not in query_string_params and "name" in query_string_params:
-                user_name = http_request.query["name"]
-                response = self.find_user_use_case.by_name(name=user_name)
+            elif (
+                "user_id" not in query_string_params
+                and "user_name" in query_string_params
+            ):
+                user_name = http_request.query["user_name"]
+                response = self.find_user_use_case.by_name(user_name=user_name)
 
             else:
                 response = {"Success": False, "Data": None}

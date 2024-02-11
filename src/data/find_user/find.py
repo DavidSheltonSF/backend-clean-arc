@@ -17,7 +17,8 @@ class FindUser(FindUserInterface):
             user_id (int): User's id
 
         Returns:
-            Dict[bool, List[Users]]: _description_
+            Dict[bool, List[Users]]:
+            A response {'Sucess': True/False, 'Data': List[Users]/None}
         """
 
         response = None
@@ -29,40 +30,43 @@ class FindUser(FindUserInterface):
 
         return {"Success": validate_entry, "Data": response}
 
-    def by_name(self, name: str) -> Dict[bool, List[Users]]:
+    def by_name(self, user_name: str) -> Dict[bool, List[Users]]:
         """Find user by name
 
         Args:
-            user_id (int): User's id
+            user_name (str): User's name
 
         Returns:
-            Dict[bool, List[Users]]: _description_
+            Dict[bool, List[Users]]:
+            A response {'Sucess': True/False, 'Data': List[Users]/None}
         """
 
         response = None
 
-        validate_entry = isinstance(name, str)
+        validate_entry = isinstance(user_name, str)
 
         if validate_entry:
-            response = self.user_repository.select_user(name=name)
+            response = self.user_repository.select_user(user_name=user_name)
 
         return {"Success": validate_entry, "Data": response}
 
-    def by_id_and_name(self, user_id: int, name: str) -> Dict[bool, List[Users]]:
+    def by_id_and_name(self, user_id: int, user_name: str) -> Dict[bool, List[Users]]:
         """Find user by id and name
 
         Args:
             user_id (int): User's id
+            user_name (str): User's name
 
         Returns:
-            Dict[bool, List[Users]]: _description_
+            Dict[bool, List[Users]]:
+            A response {'Sucess': True/False, 'Data': List[Users]/None}
         """
 
         response = None
 
-        validate_entry = isinstance(user_id, int) and isinstance(name, str)
+        validate_entry = isinstance(user_id, int) and isinstance(user_name, str)
 
         if validate_entry:
-            response = self.user_repository.select_user(user_id, name)
+            response = self.user_repository.select_user(user_id, user_name)
 
         return {"Success": validate_entry, "Data": response}

@@ -12,15 +12,15 @@ def test_register():
     register_user = RegisterUser(user_repo)
 
     # Intance fake data
-    attributes = {"name": faker.name(), "password": faker.word()}
+    attributes = {"user_name": faker.name(), "password": faker.word()}
 
     # Insert fake data
-    response = register_user.register(attributes["name"], attributes["password"])
+    response = register_user.register(attributes["user_name"], attributes["password"])
 
     # print(response)
 
     # testing inputs
-    assert user_repo.insert_user_params["name"] == attributes["name"]
+    assert user_repo.insert_user_params["user_name"] == attributes["user_name"]
     assert user_repo.insert_user_params["password"] == attributes["password"]
 
     # testing outputs
@@ -34,10 +34,10 @@ def test_register_fail():
     register_user = RegisterUser(user_repo)
 
     # Intance fake data
-    attributes = {"name": faker.random_number(digits=2), "password": faker.word()}
+    attributes = {"user_name": faker.random_number(digits=2), "password": faker.word()}
 
     # Insert fake data
-    response = register_user.register(attributes["name"], attributes["password"])
+    response = register_user.register(attributes["user_name"], attributes["password"])
 
     print(response)
 

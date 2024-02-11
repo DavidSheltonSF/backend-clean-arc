@@ -33,16 +33,16 @@ def test_by_name():
     find_user = FindUser(user_repo)
 
     # Fake data
-    attributes = {"name": faker.name()}
+    attributes = {"user_name": faker.name()}
 
     # Select user by name:
-    response1 = find_user.by_name(attributes["name"])
+    response1 = find_user.by_name(attributes["user_name"])
 
     print(user_repo.select_user_params)
     print(response1)
 
     # Test inputs
-    assert user_repo.select_user_params["name"] == attributes["name"]
+    assert user_repo.select_user_params["user_name"] == attributes["user_name"]
 
     # Test outputs
     assert response1["Success"] is True
@@ -55,17 +55,17 @@ def test_by_id_and_name():
     find_user = FindUser(user_repo)
 
     # Fake data
-    attributes = {"user_id": faker.random_number(digits=5), "name": faker.name()}
+    attributes = {"user_id": faker.random_number(digits=5), "user_name": faker.name()}
 
     # Select user by name:
-    response1 = find_user.by_id_and_name(attributes["user_id"], attributes["name"])
+    response1 = find_user.by_id_and_name(attributes["user_id"], attributes["user_name"])
 
     print(user_repo.select_user_params)
     print(response1)
 
     # Test inputs
     assert user_repo.select_user_params["user_id"] == attributes["user_id"]
-    assert user_repo.select_user_params["name"] == attributes["name"]
+    assert user_repo.select_user_params["user_name"] == attributes["user_name"]
 
     # Test outputs
     assert response1["Success"] is True

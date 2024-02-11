@@ -12,13 +12,13 @@ class PetRepositorySpy:
 
     def insert_pet(
         self,
-        name: str = None,
+        pet_name: str = None,
         specie: str = None,
         age: int = None,
         user_id: int = None,
     ) -> Pets:
         """Spy to all the attributes"""
-        self.insert_pet_params["name"] = name
+        self.insert_pet_params["pet_name"] = pet_name
         self.insert_pet_params["specie"] = specie
         self.insert_pet_params["age"] = age
         self.insert_pet_params["user_id"] = user_id

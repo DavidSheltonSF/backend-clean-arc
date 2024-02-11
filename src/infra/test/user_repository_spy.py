@@ -10,16 +10,16 @@ class UserRepositorySpy:
         self.insert_user_params = {}
         self.select_user_params = {}
 
-    def insert_user(self, name: str, password: str) -> Users:
-        """Spy to all the attributes"""
-        self.insert_user_params["name"] = name
+    def insert_user(self, user_name: str, password: str) -> Users:
+        """Spy to UserRepository.insert_user method"""
+        self.insert_user_params["user_name"] = user_name
         self.insert_user_params["password"] = password
 
         return mock_users()
 
-    def select_user(self, user_id: int = None, name: str = None) -> List[Users]:
+    def select_user(self, user_id: int = None, user_name: str = None) -> List[Users]:
         """Spy to all the attributes"""
         self.select_user_params["user_id"] = user_id
-        self.select_user_params["name"] = name
+        self.select_user_params["user_name"] = user_name
 
         return [mock_users()]

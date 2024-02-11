@@ -16,25 +16,26 @@ def test_register():
 
     # Intance fake data
     attributes = {
-        "name": faker.name(),
+        "pet_name": faker.name(),
         "specie": faker.random_element(list(AnimalTypes)).name,
         "age": faker.random_number(digits=2),
         "user_information": {
             "user_id": faker.random_number(digits=5),
-            "name": faker.name(),
+            "user_name": faker.name(),
         },
     }
 
     # Insert fake data
     response = register_pet.register(
-        attributes["name"],
+        attributes["pet_name"],
         attributes["specie"],
         attributes["age"],
         attributes["user_information"],
     )
 
+    print(pet_repo.insert_pet_params)
     # testing inputs
-    assert pet_repo.insert_pet_params["name"] == attributes["name"]
+    assert pet_repo.insert_pet_params["pet_name"] == attributes["pet_name"]
     assert pet_repo.insert_pet_params["specie"] == attributes["specie"]
     assert pet_repo.insert_pet_params["age"] == attributes["age"]
     print(pet_repo.insert_pet_params)
@@ -45,7 +46,8 @@ def test_register():
         == attributes["user_information"]["user_id"]
     )
     assert (
-        find_user.by_id_and_name_param["name"] == attributes["user_information"]["name"]
+        find_user.by_id_and_name_param["user_name"]
+        == attributes["user_information"]["user_name"]
     )
     print(find_user.by_id_and_name_param)
 

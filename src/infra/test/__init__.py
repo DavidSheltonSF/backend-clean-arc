@@ -1,4 +1,4 @@
-""" This module have the test aux classes
+""" This module have the spies of Repositories
 """
 
 from .user_repository_spy import UserRepositorySpy

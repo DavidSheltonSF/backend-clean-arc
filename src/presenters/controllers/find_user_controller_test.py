@@ -13,18 +13,20 @@ def test_handle():
     find_user_use_case = FindUserSpy(UserRepositorySpy())
     find_user_controller = FindUserController(find_user_use_case)
     http_request = HttpRequest(
-        query={"user_id": faker.random_number(), "name": faker.name()}
+        query={"user_id": faker.random_number(), "user_name": faker.name()}
     )
 
     response = find_user_controller.handle(http_request)
-    print(response)
 
     # Testing inputs
     assert (
         find_user_use_case.by_id_and_name_param["user_id"]
         == http_request.query["user_id"]
     )
-    assert find_user_use_case.by_id_and_name_param["name"] == http_request.query["name"]
+    assert (
+        find_user_use_case.by_id_and_name_param["user_name"]
+        == http_request.query["user_name"]
+    )
 
     # Testing outputs
     assert response.status_code == 200

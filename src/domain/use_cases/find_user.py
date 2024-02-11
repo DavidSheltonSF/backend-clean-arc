@@ -14,12 +14,12 @@ class FindUser(ABC):
 
     @classmethod
     @abstractmethod
-    def by_name(cls, name: str) -> Dict[bool, List[Users]]:
+    def by_name(cls, user_name: str) -> Dict[bool, List[Users]]:
         """Specific case"""
         raise NotImplementedError("Should implement method: by_name")
 
     @classmethod
     @abstractmethod
-    def by_id_and_name(cls, user_id: int, name: str) -> Dict[bool, List[Users]]:
+    def by_id_and_name(cls, user_id: int, user_name: str) -> Dict[bool, List[Users]]:
         """Specific case"""
         raise NotImplementedError("Should implement method: by_id_name")

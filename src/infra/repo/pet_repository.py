@@ -9,11 +9,11 @@ class PetRepository(PetRepositoryInterface):
     """Class to manage Pet Repository"""
 
     @classmethod
-    def insert_pet(cls, name: str, specie: str, age: int, user_id: int) -> Pets:
+    def insert_pet(cls, pet_name: str, specie: str, age: int, user_id: int) -> Pets:
         """Inser data in PetEntity entity
 
         Args:
-            name (str): Pet's name
+            pet_name (str): Pet's name
             specie (str): Pet's specie
             age (int): Pet's age
             user_id (int): Pet's id of owner
@@ -25,7 +25,9 @@ class PetRepository(PetRepositoryInterface):
         with DBConnectionHandler() as db_connection:
             # Try add a new pet
             try:
-                new_pet = PetsModel(name=name, specie=specie, age=age, user_id=user_id)
+                new_pet = PetsModel(
+                    name=pet_name, specie=specie, age=age, user_id=user_id
+                )
                 db_connection.session.add(new_pet)
                 db_connection.session.commit()
 

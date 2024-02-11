@@ -12,11 +12,11 @@ def test_insert_user():
     """Testing the User repository insert_user method"""
 
     # Instance the fake dada to insert into Users entity
-    name = faker.name()
+    user_name = faker.name()
     password = faker.word()
 
     # Insert the user in database
-    new_user = user_repository.insert_user(name, password)
+    new_user = user_repository.insert_user(user_name, password)
 
     # Get the database engine
     engine = db_connection_handler.get_engine()
@@ -53,11 +53,11 @@ def test_select_user():
 
     # Intance fake data to insert before selecting
     user_id = faker.random_number(digits=5)
-    name = faker.name()
+    user_name = faker.name()
     password = faker.word()
 
     # Instance an User object
-    data = UsersModel(id=user_id, name=name, password=password)
+    data = UsersModel(id=user_id, name=user_name, password=password)
 
     # Get the database engine
     engine = db_connection_handler.get_engine()
@@ -66,14 +66,14 @@ def test_select_user():
     engine.execute(
         f"""
             INSERT INTO USERS (id, name, password)
-            VALUES ('{user_id}', '{name}', '{password}')
+            VALUES ('{user_id}', '{user_name}', '{password}')
         """
     )
 
     # Do 3 query selections to test
     query_user1 = user_repository.select_user(user_id=user_id)
-    query_user2 = user_repository.select_user(name=name)
-    query_user3 = user_repository.select_user(user_id=user_id, name=name)
+    query_user2 = user_repository.select_user(user_name=user_name)
+    query_user3 = user_repository.select_user(user_id=user_id, user_name=user_name)
 
     # Check if User data inserted
     # is in the data obtained in the queries

@@ -6,11 +6,10 @@ from src.domain.models import Pets
 class RegisterPet(ABC):
     """RegisterPet's interface use case"""
 
-    @classmethod
     @abstractmethod
     def register(
-        cls,
-        name: str,
+        self,
+        pet_name: str,
         specie: str,
         user_information: Dict[int, str],
         age: int = None,

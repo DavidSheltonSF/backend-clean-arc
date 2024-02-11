@@ -9,11 +9,11 @@ class UserRepository(UserRepositoryInterface):
     """Class to manage User Repository"""
 
     @classmethod
-    def insert_user(cls, name: str, password: str) -> Users:
+    def insert_user(cls, user_name: str, password: str) -> Users:
         """Insert data in user entity
 
         Args:
-            name (str): user name
+            nauser_nameme (str): user name
             password (str): user password
 
         Return:
@@ -24,7 +24,7 @@ class UserRepository(UserRepositoryInterface):
         with DBConnectionHandler() as db_connection:
             # Try add a new user
             try:
-                new_user = UsersModel(name=name, password=password)
+                new_user = UsersModel(name=user_name, password=password)
                 db_connection.session.add(new_user)
                 db_connection.session.commit()
                 return Users(
@@ -37,12 +37,12 @@ class UserRepository(UserRepositoryInterface):
                 db_connection.session.close()
 
     @classmethod
-    def select_user(cls, user_id: int = None, name: str = None) -> List[Users]:
+    def select_user(cls, user_id: int = None, user_name: str = None) -> List[Users]:
         """Select data in user entity by id and/or name
 
         Args:
             user_id (int, optional): Id of the registry. Defaults to None.
-            name (str, optional): User's name. Defaults to None.
+            user_name (str, optional): User's name. Defaults to None.
 
         Returns:
             List[Users]: List with Users selected data
@@ -53,7 +53,7 @@ class UserRepository(UserRepositoryInterface):
         # Try select users in database
         try:
             # Check if has id but has not name
-            if user_id and not name:
+            if user_id and not user_name:
 
                 # Open database connection,
                 # select user by id and get one
@@ -66,27 +66,27 @@ class UserRepository(UserRepositoryInterface):
                     query_data = [data]
 
             # Check if has not id but has name
-            elif not user_id and name:
+            elif not user_id and user_name:
 
                 # Open database connection,
                 # select user by name and get one
                 with DBConnectionHandler() as db_connection:
                     data = (
                         db_connection.session.query(UsersModel)
-                        .filter_by(name=name)
+                        .filter_by(name=user_name)
                         .one()
                     )
                     query_data = [data]
 
             # Check if has id and name
-            elif user_id and name:
+            elif user_id and user_name:
 
                 # Open database connection,
                 # select user by id and by name, and get one
                 with DBConnectionHandler() as db_connection:
                     data = (
                         db_connection.session.query(UsersModel)
-                        .filter_by(id=user_id, name=name)
+                        .filter_by(id=user_id, name=user_name)
                         .one()
                     )
                     query_data = [data]

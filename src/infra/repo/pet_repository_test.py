@@ -13,14 +13,14 @@ def test_insert_pet():
     """Testing the Pet repository insert_pet method"""
 
     # Intance fake data do insert into Pets entity
-    name = faker.name()
+    pet_name = faker.name()
     specie = faker.random_element(list(AnimalTypes)).name
     age = faker.random_number(digits=2)
     user_id = faker.random_number(digits=5)
 
     # Insert the fake data
     new_pet = pet_repository.insert_pet(
-        name=name, specie=specie, age=age, user_id=user_id
+        pet_name=pet_name, specie=specie, age=age, user_id=user_id
     )
 
     # Get the database engine
@@ -59,14 +59,16 @@ def test_select_pet():
 
     # Intance fake data to insert before selecting
     pet_id = faker.random_number(digits=4)
-    name = faker.name()
+    pet_name = faker.name()
     specie = faker.random_element(list(AnimalTypes)).name
     specie_mock = AnimalTypes(specie.lower())
     age = faker.random_number(digits=2)
     user_id = faker.random_number(digits=5)
 
     # Instance an Pet object
-    data = PetsModel(id=pet_id, name=name, specie=specie_mock, age=age, user_id=user_id)
+    data = PetsModel(
+        id=pet_id, name=pet_name, specie=specie_mock, age=age, user_id=user_id
+    )
 
     # Get the database engine
     engine = db_connection_handler.get_engine()
@@ -77,7 +79,7 @@ def test_select_pet():
             INSERT INTO pets
             (id, name, specie, age, user_id)
             VALUES
-            ('{pet_id}', '{name}', '{specie}', '{age}', '{user_id}')
+            ('{pet_id}', '{pet_name}', '{specie}', '{age}', '{user_id}')
         """
     )
 

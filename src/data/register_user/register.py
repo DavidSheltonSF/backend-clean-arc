@@ -14,7 +14,7 @@ class RegisterUser(RegisterUserInterface):
     def __init__(self, user_repository: Type[UserRepository]):
         self.user_repository = user_repository
 
-    def register(self, name: str, password: str) -> Dict[bool, Users]:
+    def register(self, user_name: str, password: str) -> Dict[bool, Users]:
         """Register user use case
 
         Args:
@@ -26,9 +26,9 @@ class RegisterUser(RegisterUserInterface):
         """
 
         response = None
-        validate_entry = isinstance(name, str) and isinstance(password, str)
+        validate_entry = isinstance(user_name, str) and isinstance(password, str)
 
         if validate_entry:
-            response = self.user_repository.insert_user(name, password)
+            response = self.user_repository.insert_user(user_name, password)
 
         return {"Success": validate_entry, "Data": response}

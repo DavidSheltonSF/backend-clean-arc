@@ -9,9 +9,9 @@ class PetRepositoryInterface(ABC):
     @abstractmethod
     def insert_pet(self, name: str, specie: str, age: int, user_id: int) -> Pets:
         """Abstract method"""
-        raise NotImplementedError("Method not implemented")
+        raise NotImplementedError("Should implement method: insert_pet")
 
     @abstractmethod
     def select_pet(self, pet_id: int = None, user_id: int = None) -> List[Pets]:
         """Abstract method"""
-        raise NotImplementedError("Method not implemented")
+        raise NotImplementedError("Should implement method: select_pet")

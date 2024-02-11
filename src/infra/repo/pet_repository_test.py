@@ -10,9 +10,9 @@ db_connection_handler = DBConnectionHandler()
 
 
 def test_insert_pet():
-    """Shold insert a pet into Pets"""
+    """Testing the Pet repository insert_pet method"""
 
-    # Intance fake data do insert into Pets
+    # Intance fake data do insert into Pets entity
     name = faker.name()
     specie = faker.random_element(list(AnimalTypes)).name
     age = faker.random_number(digits=2)
@@ -22,10 +22,11 @@ def test_insert_pet():
     new_pet = pet_repository.insert_pet(
         name=name, specie=specie, age=age, user_id=user_id
     )
-    # Get database's enigine
+
+    # Get the database engine
     engine = db_connection_handler.get_engine()
 
-    # Query to select the fake data from database
+    # Do a query to select the pet fake data from database
     query_pet = engine.execute(
         f"""
         SELECT *
@@ -37,7 +38,7 @@ def test_insert_pet():
     # print(query_pet)
     # print(new_pet)
 
-    # Delete fake data from database
+    # Delete the fake data from database
     engine.execute(
         f"""
         DELETE FROM pets
@@ -45,7 +46,8 @@ def test_insert_pet():
         """
     )
 
-    # Check if data inserted is equal data obtained by query
+    # Check if pet data inserted is
+    # equal the pet data selected by the query
     assert new_pet.id == query_pet.id
     assert new_pet.name == query_pet.name
     assert new_pet.age == query_pet.age
@@ -53,8 +55,9 @@ def test_insert_pet():
 
 
 def test_select_pet():
-    """Shold select a pet in Pets table and compare it"""
+    """Testing the Pet repository select_pet method"""
 
+    # Intance fake data to insert before selecting
     pet_id = faker.random_number(digits=4)
     name = faker.name()
     specie = faker.random_element(list(AnimalTypes)).name
@@ -62,14 +65,13 @@ def test_select_pet():
     age = faker.random_number(digits=2)
     user_id = faker.random_number(digits=5)
 
+    # Instance an Pet object
     data = PetsModel(id=pet_id, name=name, specie=specie_mock, age=age, user_id=user_id)
 
-    # Get database's engine
+    # Get the database engine
     engine = db_connection_handler.get_engine()
 
-    engine.execute("DELETE FROM pets")
-
-    # Insert fake user after select it
+    # Insert a fake pet to test the query selection
     engine.execute(
         f"""
             INSERT INTO pets
@@ -79,10 +81,20 @@ def test_select_pet():
         """
     )
 
+    # Do 3 query selections to test
     query_pet1 = pet_repository.select_pet(pet_id=pet_id)
     query_pet2 = pet_repository.select_pet(user_id=user_id)
     query_pet3 = pet_repository.select_pet(pet_id=pet_id, user_id=user_id)
 
+    # Check if Pet data inserted
+    # is in the data obtained in the queries
     assert data in query_pet1
     assert data in query_pet2
     assert data in query_pet3
+
+    if pet_id:
+        # Delete the fake pet from database
+        engine.execute(f"DELETE FROM pets WHERE id='{pet_id}'")
+    elif user_id:
+        # Delete the fake pet from database
+        engine.execute(f"DELETE FROM pets WHERE user_id='{user_id}'")

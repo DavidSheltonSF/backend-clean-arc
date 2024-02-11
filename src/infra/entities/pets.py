@@ -19,8 +19,9 @@ class AnimalTypes(enum.Enum):
 class Pets(Base):
     """Pets Entity
 
-    Args:
-        Base (alias): _description_
+    Inheritance:
+        Base (alias): Sqlalchemy base for
+        customized classes to access sqlalchemy resources
     """
 
     __tablename__ = "pets"
@@ -32,6 +33,11 @@ class Pets(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
 
     def __repr__(self):
+        """Represents the instance of this class by a string
+
+        Returns:
+            (str): An string to represent the instance of this class
+        """
 
         return f"""
         Pet [
@@ -42,12 +48,24 @@ class Pets(Base):
         """
 
     def __eq__(self, other):
-        if (
-            self.id == other.id
-            and self.name == other.name
-            and self.specie == other.specie
-            and self.age == other.age
-            and self.user_id == other.user_id
-        ):
-            return True
+        """Compare the current Pets instance
+        with another Pets instance
+
+        Args:
+            other (Pets): Other Pets instance
+
+        Returns:
+            (bool): Return True if the instances
+            are considered equal and False, else.
+        """
+
+        if isinstance(other, Pets):
+            if (
+                self.id == other.id
+                and self.name == other.name
+                and self.specie == other.specie
+                and self.age == other.age
+                and self.user_id == other.user_id
+            ):
+                return True
         return False

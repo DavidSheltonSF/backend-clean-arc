@@ -17,11 +17,12 @@ class UserRepository(UserRepositoryInterface):
             password (str): user password
 
         Return:
+            (NamedTuple => Users): Returns the inserted user data
         """
 
         # Open database connection and try to add a new user
         with DBConnectionHandler() as db_connection:
-            # Try add new user
+            # Try add a new user
             try:
                 new_user = UsersModel(name=name, password=password)
                 db_connection.session.add(new_user)
@@ -44,7 +45,7 @@ class UserRepository(UserRepositoryInterface):
             name (str, optional): User's name. Defaults to None.
 
         Returns:
-            List[Users]: List with Users selected
+            List[Users]: List with Users selected data
         """
 
         query_data = None

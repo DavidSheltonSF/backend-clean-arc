@@ -18,11 +18,12 @@ class PetRepository(PetRepositoryInterface):
             age (int): Pet's age
             user_id (int): Pet's id of owner
 
-        Returns:
-            Pets: Tuple with data of pet inserted
+         Return:
+            (NamedTuple => Pets): Returns the inserted pet data
         """
-
+        # Open database connection and try to add a new pet
         with DBConnectionHandler() as db_connection:
+            # Try add a new pet
             try:
                 new_pet = PetsModel(name=name, specie=specie, age=age, user_id=user_id)
                 db_connection.session.add(new_pet)
@@ -51,15 +52,18 @@ class PetRepository(PetRepositoryInterface):
             user_id (int, optional): Id of the owner. Defaults to None.
 
         Returns:
-            List[Pets]: List with pets selected
+            List[Pets]: List with Pets selected data
         """
 
+        # Try select pets in database
         try:
 
             query_data = None
-
+            # Check if has pet_id but has not user_id
             if pet_id and not user_id:
 
+                # Open database connection,
+                # select user by pet_id and get one
                 with DBConnectionHandler() as db_connection:
                     data = (
                         db_connection.session.query(PetsModel)
@@ -68,8 +72,11 @@ class PetRepository(PetRepositoryInterface):
                     )
                     query_data = [data]
 
+            # Check if has not pet_id but has user_id
             elif not pet_id and user_id:
 
+                # Open database connection,
+                # select pet by user_id and get one
                 with DBConnectionHandler() as db_connection:
                     data = (
                         db_connection.session.query(PetsModel)
@@ -78,8 +85,11 @@ class PetRepository(PetRepositoryInterface):
                     )
                     query_data = data
 
+            # Check if has pet_id and name
             elif pet_id and user_id:
 
+                # Open database connection,
+                # select user by pet_id and by user_id, and get one
                 with DBConnectionHandler() as db_connection:
                     data = (
                         db_connection.session.query(PetsModel)

@@ -9,9 +9,9 @@ class UserRepositoryInterface(ABC):
     @abstractmethod
     def insert_user(self, name: str, password: str) -> Users:
         """Abstract method"""
-        raise NotImplementedError("Method not implemented")
+        raise NotImplementedError("Should implement method: insert_user")
 
     @abstractmethod
     def select_user(self, user_id: int = None, name: int = None) -> List[Users]:
         """Abstract method"""
-        raise NotImplementedError("Method not implemented")
+        raise NotImplementedError("Should implement method: select_user")

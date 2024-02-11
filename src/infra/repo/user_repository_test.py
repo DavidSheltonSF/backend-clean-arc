@@ -9,19 +9,19 @@ db_connection_handler = DBConnectionHandler()
 
 
 def test_insert_user():
-    """Shold insert user user in User table"""
+    """Testing the User repository insert_user method"""
 
     # Instance the fake dada to insert into Users entity
     name = faker.name()
     password = faker.word()
 
-    # Get the database's engine
-    engine = db_connection_handler.get_engine()
-
     # Insert the user in database
     new_user = user_repository.insert_user(name, password)
 
-    # Do a query to get the user's data from database
+    # Get the database engine
+    engine = db_connection_handler.get_engine()
+
+    # Do a query to select the user fake data from database
     query_user = engine.execute(
         f"""
         SELECT *
@@ -33,7 +33,7 @@ def test_insert_user():
     # print(query_user)
     # print(new_user)
 
-    # Delete the user inserted
+    # Delete the fake data from database
     engine.execute(
         f"""
             DELETE FROM users
@@ -41,17 +41,17 @@ def test_insert_user():
         """
     )
 
-    # Check if user's data inserted is
-    # equal the user's data selected by the query
+    # Check if user data inserted is
+    # equal the user data selected by the query
     assert new_user.id == query_user.id
     assert new_user.name == query_user.name
     assert new_user.password == query_user.password
 
 
 def test_select_user():
-    """Should select a user in Users table and compare it"""
+    """Testing the User repository select_user method"""
 
-    # Intance fake data to insert before select
+    # Intance fake data to insert before selecting
     user_id = faker.random_number(digits=5)
     name = faker.name()
     password = faker.word()
@@ -59,10 +59,10 @@ def test_select_user():
     # Instance an User object
     data = UsersModel(id=user_id, name=name, password=password)
 
-    # Get the database's engine
+    # Get the database engine
     engine = db_connection_handler.get_engine()
 
-    # Insert a fake user to test the query selections
+    # Insert a fake user to test the query selection
     engine.execute(
         f"""
             INSERT INTO USERS (id, name, password)
@@ -75,7 +75,7 @@ def test_select_user():
     query_user2 = user_repository.select_user(name=name)
     query_user3 = user_repository.select_user(user_id=user_id, name=name)
 
-    # Check if User's data inserted
+    # Check if User data inserted
     # is in the data obtained in the queries
     assert data in query_user1
     assert data in query_user2

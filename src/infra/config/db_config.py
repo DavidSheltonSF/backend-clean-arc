@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 class DBConnectionHandler:
-    """Sqlalchemy database connection"""
+    """Class that deals directily with database"""
 
     def __init__(self):
         self.__connection_string = "sqlite:///storage.sqlite"
@@ -11,8 +11,8 @@ class DBConnectionHandler:
 
     def get_engine(self):
         """Return connection Engine
-        :param - None
-        :return - engine connection to Database
+        Returns:
+            DBConnectionHandler: Engine connection to Database
         """
         engine = create_engine(self.__connection_string)
         return engine
@@ -20,10 +20,8 @@ class DBConnectionHandler:
     def __enter__(self):
         """An magic method which the 'with' statement will
         use to OPEN the session
-
-        Returns:
-            DBConnectionHandler: _description_
         """
+        # Create the database's engine make a session
         engine = create_engine(self.__connection_string)
         session_maker = sessionmaker()
         self.session = session_maker(bind=engine)

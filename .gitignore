@@ -5,3 +5,4 @@ storage.sqlite
 .pytest_cache
 reset_tables.py
 
+test.py

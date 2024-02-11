@@ -35,7 +35,7 @@ class FindUserSpy:
         if validate_entry:
             response = [mock_users()]
 
-        response = {"Success": validate_entry, "Data": response}
+        return {"Success": validate_entry, "Data": response}
 
     def by_id_and_name(self, user_id: int, name: str) -> Dict[bool, List[Users]]:
         """Select User by id and name"""

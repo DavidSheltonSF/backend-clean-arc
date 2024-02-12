@@ -17,7 +17,11 @@ class RegisterPet(RegisterPetInterface):
         self.find_user = find_user
 
     def register(
-        self, pet_name: str, specie: str, age: int, user_information: Dict[int, str]
+        self,
+        pet_name: str,
+        specie: str,
+        user_information: Dict[int, str],
+        age: int = None,
     ) -> Dict[bool, Pets]:
         """Register pet
 

@@ -30,8 +30,8 @@ def test_register():
     response = register_pet.register(
         attributes["pet_name"],
         attributes["specie"],
-        attributes["age"],
         attributes["user_information"],
+        attributes["age"],
     )
 
     # testing inputs

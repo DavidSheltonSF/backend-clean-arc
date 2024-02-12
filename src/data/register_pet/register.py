@@ -34,16 +34,16 @@ class RegisterPet(RegisterPetInterface):
 
         response = None
 
-        # Validating entry and trying otfind an user
         validate_entry = (
             isinstance(pet_name, str)
             and isinstance(specie, str)
             and (isinstance(age, int) or age is None)
             and isinstance(user_information, dict)
         )
+        # Try to find the user
         user = self.__find_user_information(user_information)
-        print(user)
-        print("kkkk")
+
+        # Check validate_entry and user found
         checker = validate_entry and user["Success"]
 
         if checker:
@@ -70,21 +70,23 @@ class RegisterPet(RegisterPetInterface):
         user_founded = None
         user_params = user_information.keys()
 
+        # Check if user_id  and user_name is in params
         if "user_id" in user_params and "user_name" in user_params:
             user_founded = self.find_user.by_id_and_name(
                 user_id=user_information["user_id"],
                 user_name=user_information["user_name"],
             )
 
+        # Check if user_id is in params and user_name is not
         elif "user_id" in user_params and "user_name" not in user_params:
             user_founded = self.find_user.by_id(user_information["user_id"])
 
+        # Check if user_id is not in params and user_name is in
         elif "user_id" not in user_params and "user_name" in user_params:
             user_founded = self.find_user.by_name(user_information["user_name"])
+
+        # In last case
         else:
             return {"Success": False, "Data": None}
-
-        print(f"ENCONTRATO: {user_founded}")
-        print(user_params)
 
         return user_founded

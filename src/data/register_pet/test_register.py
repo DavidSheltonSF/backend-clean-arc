@@ -10,6 +10,7 @@ faker = Faker()
 
 def test_register():
     """Testing registry method"""
+
     pet_repo = PetRepositorySpy()
     find_user = FindUserSpy(UserRepositorySpy)
     register_pet = RegisterPet(pet_repo, find_user)
@@ -33,12 +34,10 @@ def test_register():
         attributes["user_information"],
     )
 
-    print(pet_repo.insert_pet_params)
     # testing inputs
     assert pet_repo.insert_pet_params["pet_name"] == attributes["pet_name"]
     assert pet_repo.insert_pet_params["specie"] == attributes["specie"]
     assert pet_repo.insert_pet_params["age"] == attributes["age"]
-    print(pet_repo.insert_pet_params)
 
     # Testing FindUser Inputs
     assert (
@@ -49,7 +48,6 @@ def test_register():
         find_user.by_id_and_name_param["user_name"]
         == attributes["user_information"]["user_name"]
     )
-    print(find_user.by_id_and_name_param)
 
     # testing outputs
     assert response["Success"] is True

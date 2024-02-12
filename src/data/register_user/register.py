@@ -26,6 +26,7 @@ class RegisterUser(RegisterUserInterface):
         """
 
         response = None
+
         validate_entry = isinstance(user_name, str) and isinstance(password, str)
 
         if validate_entry:

@@ -39,8 +39,6 @@ def test_register_fail():
     # Insert fake data
     response = register_user.register(attributes["user_name"], attributes["password"])
 
-    print(response)
-
     # testing inputs
     assert not user_repo.insert_user_params  # test if it is {}
 

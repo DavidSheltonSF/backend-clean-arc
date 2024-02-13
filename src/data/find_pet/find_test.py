@@ -14,7 +14,7 @@ def test_by_pet_id():
     attributes = {"pet_id": faker.random_number(digits=5)}
 
     # Select pet by id:
-    response = find_pet.by_id(attributes["pet_id"])
+    response = find_pet.by_pet_id(attributes["pet_id"])
 
     print(pet_repo.select_pet_params)
     print(response)
@@ -36,7 +36,7 @@ def test_by_id_no_pet_id():
     attributes = {"pet_id": None}
 
     # Select pet by id:
-    response = find_pet.by_id(attributes["pet_id"])
+    response = find_pet.by_pet_id(attributes["pet_id"])
 
     print(pet_repo.select_pet_params)
     print(response)
@@ -105,7 +105,9 @@ def test_by_pet_id_and_user_id():
     }
 
     # Select pet by user_id:
-    response = find_pet.by_id_and_user_id(attributes["pet_id"], attributes["user_id"])
+    response = find_pet.by_pet_id_and_user_id(
+        attributes["pet_id"], attributes["user_id"]
+    )
 
     print(pet_repo.select_pet_params)
     print(response)
@@ -128,7 +130,9 @@ def test_by_pet_id_and_user_id_no_pet_id():
     attributes = {"pet_id": None, "user_id": faker.random_number(digits=5)}
 
     # Select pet by user_id:
-    response = find_pet.by_id_and_user_id(attributes["pet_id"], attributes["user_id"])
+    response = find_pet.by_pet_id_and_user_id(
+        attributes["pet_id"], attributes["user_id"]
+    )
 
     print(pet_repo.select_pet_params)
     print(response)
@@ -151,7 +155,9 @@ def test_by_pet_id_and_user_id_no_user_id():
     attributes = {"pet_id": faker.random_number(digits=5), "user_id": None}
 
     # Select pet by user_id:
-    response = find_pet.by_id_and_user_id(attributes["pet_id"], attributes["user_id"])
+    response = find_pet.by_pet_id_and_user_id(
+        attributes["pet_id"], attributes["user_id"]
+    )
 
     print(pet_repo.select_pet_params)
     print(response)
@@ -177,7 +183,9 @@ def test_by_pet_id_and_user_id_no_input():
     }
 
     # Select pet by user_id:
-    response = find_pet.by_id_and_user_id(attributes["pet_id"], attributes["user_id"])
+    response = find_pet.by_pet_id_and_user_id(
+        attributes["pet_id"], attributes["user_id"]
+    )
 
     print(pet_repo.select_pet_params)
     print(response)

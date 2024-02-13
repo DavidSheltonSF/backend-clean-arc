@@ -10,7 +10,7 @@ class FindPet(FindPetInterface):
     def __init__(self, pet_repository: Type[PetRepository]):
         self.pet_repository = pet_repository
 
-    def by_id(self, pet_id: int) -> Dict[bool, List[Pets]]:
+    def by_pet_id(self, pet_id: int) -> Dict[bool, List[Pets]]:
         """Find pet by id
 
         Args:
@@ -48,7 +48,9 @@ class FindPet(FindPetInterface):
 
         return {"Success": validate_entry, "Data": response}
 
-    def by_id_and_user_id(self, pet_id: int, user_id: int) -> Dict[bool, List[Pets]]:
+    def by_pet_id_and_user_id(
+        self, pet_id: int, user_id: int
+    ) -> Dict[bool, List[Pets]]:
         """Find pet by id and name
 
         Args:

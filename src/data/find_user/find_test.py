@@ -16,9 +16,6 @@ def test_by_id():
     # Select user by id:
     response1 = find_user.by_id(attributes["user_id"])
 
-    print(user_repo.select_user_params)
-    print(response1)
-
     # Test inputs
     assert user_repo.select_user_params["user_id"] == attributes["user_id"]
 
@@ -37,9 +34,6 @@ def test_by_id_no_id():
 
     # Select user by id:
     response1 = find_user.by_id(attributes["user_id"])
-
-    print(user_repo.select_user_params)
-    print(response1)
 
     # Test inputs
     assert not user_repo.select_user_params
@@ -60,9 +54,6 @@ def test_by_name():
     # Select user by name:
     response1 = find_user.by_name(attributes["user_name"])
 
-    print(user_repo.select_user_params)
-    print(response1)
-
     # Test inputs
     assert user_repo.select_user_params["user_name"] == attributes["user_name"]
 
@@ -82,9 +73,6 @@ def test_by_name_no_name():
     # Select user by name:
     response1 = find_user.by_name(attributes["user_name"])
 
-    print(user_repo.select_user_params)
-    print(response1)
-
     # Test inputs
     assert not user_repo.select_user_params
 
@@ -103,9 +91,6 @@ def test_by_id_and_name():
 
     # Select user by name:
     response1 = find_user.by_id_and_name(attributes["user_id"], attributes["user_name"])
-
-    print(user_repo.select_user_params)
-    print(response1)
 
     # Test inputs
     assert user_repo.select_user_params["user_id"] == attributes["user_id"]
@@ -127,9 +112,6 @@ def test_by_id_and_name_no_id():
     # Select user by name:
     response1 = find_user.by_id_and_name(attributes["user_id"], attributes["user_name"])
 
-    print(user_repo.select_user_params)
-    print(response1)
-
     # Test inputs
     assert not user_repo.select_user_params
     assert not user_repo.select_user_params
@@ -150,9 +132,6 @@ def test_by_id_and_name_no_name():
     # Select user by name:
     response1 = find_user.by_id_and_name(attributes["user_id"], attributes["user_name"])
 
-    print(user_repo.select_user_params)
-    print(response1)
-
     # Test inputs
     assert not user_repo.select_user_params
     assert not user_repo.select_user_params
@@ -172,9 +151,6 @@ def test_by_id_and_name_no_name_or_id():
 
     # Select user by name:
     response1 = find_user.by_id_and_name(attributes["user_id"], attributes["user_name"])
-
-    print(user_repo.select_user_params)
-    print(response1)
 
     # Test inputs
     assert not user_repo.select_user_params

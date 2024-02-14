@@ -1,4 +1,5 @@
 from typing import List
+from sqlalchemy.exc import NoResultFound
 from src.data.interfaces import PetRepositoryInterface
 from src.domain.models import Pets
 from src.infra.config import DBConnectionHandler
@@ -101,6 +102,9 @@ class PetRepository(PetRepositoryInterface):
                     query_data = [data]
 
             return query_data
+
+        except NoResultFound:
+            return []
 
         except:
             db_connection.session.rollback()

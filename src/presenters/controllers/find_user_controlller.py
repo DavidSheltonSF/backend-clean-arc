@@ -16,6 +16,7 @@ class FindUserController(RouteInterface):
 
         response = None
 
+        print(http_request.query)
         # Check if there is a query in http_request
         if http_request.query:
             query_string_params = http_request.query.keys()

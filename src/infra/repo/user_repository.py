@@ -1,4 +1,5 @@
 from typing import List
+from sqlalchemy.exc import NoResultFound
 from src.data.interfaces import UserRepositoryInterface
 from src.domain.models import Users
 from src.infra.config import DBConnectionHandler
@@ -92,6 +93,9 @@ class UserRepository(UserRepositoryInterface):
                     query_data = [data]
 
             return query_data
+
+        except NoResultFound:
+            return []
 
         except:
             db_connection.session.rollback()

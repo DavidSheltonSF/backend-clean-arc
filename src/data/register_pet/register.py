@@ -52,7 +52,7 @@ class RegisterPet(RegisterPetInterface):
 
         if checker:
             response = self.pet_repository.insert_pet(
-                pet_name, specie, age, user_information
+                pet_name, specie, age, user["Data"][0].id
             )
 
         return {"Success": checker, "Data": response}

@@ -41,8 +41,7 @@ class FindPetController(RouteInterface):
 
             # check if pet_id is not in query_string_params and user_id is in
             elif (
-                "pet_id" not in query_string_params
-                and "user_id" not in query_string_params
+                "pet_id" not in query_string_params and "user_id" in query_string_params
             ):
 
                 user_id = http_request.query["user_id"]
@@ -59,6 +58,8 @@ class FindPetController(RouteInterface):
                 return HttpResponse(
                     status_code=http_error["status_code"], body=http_error["body"]
                 )
+
+            return HttpResponse(status_code=200, body=response["Data"])
 
         # If there is no query in http_request
         http_error = HttpErrors.error_400()

@@ -8,8 +8,8 @@ from .find_pet_controller import FindPetController
 faker = Faker()
 
 
-def test_handle():
-    """Testing Handle method"""
+def test_route():
+    """Testing route method"""
 
     find_pet_use_case = FindPetSpy(PetRepositorySpy())
     find_pet_controller = FindPetController(find_pet_use_case)
@@ -22,7 +22,7 @@ def test_handle():
         }
     )
 
-    response = find_pet_controller.handle(http_request)
+    response = find_pet_controller.route(http_request)
 
     print(find_pet_use_case.by_pet_id_and_user_id_param)
     print(response)

@@ -1,10 +1,11 @@
 from typing import Type
+from src.main.interface import RouteInterface
 from src.data.register_user import RegisterUser
 from src.presenters.helpers import HttpRequest, HttpResponse
 from src.presenters.erros import HttpErrors
 
 
-class RegisterUserController:
+class RegisterUserController(RouteInterface):
     """_summary_"""
 
     def __init__(self, register_user_use_case: Type[RegisterUser]):

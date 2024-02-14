@@ -1,17 +1,18 @@
 from typing import Type
+from src.main.interface import RouteInterface
 from src.data.find_pet import FindPet
 from src.presenters.helpers import HttpRequest, HttpResponse
 from src.presenters.erros import HttpErrors
 
 
-class FindPetController:
+class FindPetController(RouteInterface):
     """Controller"""
 
     def __init__(self, find_pet_use_case: Type[FindPet]):
         self.find_pet_use_case = find_pet_use_case
 
-    def handle(self, http_request: Type[HttpRequest]) -> HttpResponse:
-        """Handle"""
+    def route(self, http_request: Type[HttpRequest]) -> HttpResponse:
+        """Method to call use case"""
 
         response = None
 

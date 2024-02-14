@@ -1,6 +1,6 @@
 **/__pycache__
 venv
-comandos_criar_banco.txt0000
+comandos_criar_banco.txt
 storage.sqlite
 .pytest_cache
 reset_tables.py

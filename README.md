@@ -2,10 +2,13 @@
 
 Este é um projeto backend que estou desenvolvendo a partir da playlist de Clean Architecture com Python do canal Programador Lhama.
 
+## Framework
+
+ * **Flask**.
 
 ## Arquitetura
 
-Estou condando esse projeto para aprender **Clean Architecture**.
+Eu codei esse projeto para aprender **Clean Architecture**.
 
 Aprendi que esse tipo de arquitetura possui alguns benefícios:
 

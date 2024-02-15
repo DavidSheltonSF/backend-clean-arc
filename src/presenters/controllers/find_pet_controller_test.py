@@ -38,3 +38,22 @@ def test_route():
     # Testing outputs
     assert response.status_code == 200
     assert response.body
+
+
+def test_route_no_query():
+    """Testing FindPetController route method"""
+
+    find_pet_use_case = FindPetSpy(PetRepositorySpy())
+    find_pet_controller = FindPetController(find_pet_use_case)
+
+    # Make a request
+    http_request = HttpRequest()
+
+    response = find_pet_controller.route(http_request)
+
+    # Testing inputs
+    assert not find_pet_use_case.by_pet_id_and_user_id_param
+
+    # Testing outputs
+    assert response.status_code == 400
+    assert "error" in response.body

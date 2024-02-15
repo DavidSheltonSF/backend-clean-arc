@@ -21,7 +21,7 @@ class RegisterUserController(RouteInterface):
 
             body_params = http_request.body.keys()
 
-            # Check required user data
+            # Check if required user attributes  are in body_params
             if "user_name" in body_params and "password" in body_params:
 
                 user_name = http_request.body["user_name"]
@@ -33,6 +33,7 @@ class RegisterUserController(RouteInterface):
             else:
                 response = {"Success": False, "Data": None}
 
+            # If request failed, Unprocessable Entity
             if response["Success"] is False:
                 http_error = HttpErrors.error_422()
                 return HttpResponse(
@@ -41,7 +42,7 @@ class RegisterUserController(RouteInterface):
 
             return HttpResponse(status_code=200, body=response["Data"])
 
-        # If there is no body
+        # Bad request
         http_error = HttpErrors.error_400()
         return HttpResponse(
             status_code=http_error["status_code"], body=http_error["body"]

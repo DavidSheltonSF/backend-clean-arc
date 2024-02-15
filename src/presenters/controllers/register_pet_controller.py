@@ -6,7 +6,7 @@ from src.presenters.erros import HttpErrors
 
 
 class RegisterPetController(RouteInterface):
-    """Class to Define Rout to register_pet use case"""
+    """Class to Define a controller to RegisterPet use case"""
 
     def __init__(self, register_pet_use_case: Type[RegisterPet]):
         self.register_pet_use_case = register_pet_use_case
@@ -21,6 +21,7 @@ class RegisterPetController(RouteInterface):
 
             body_params = http_request.body.keys()
 
+            # Check if required pet attributes are in body_params
             if (
                 "pet_name" in body_params
                 and "specie" in body_params
@@ -28,6 +29,7 @@ class RegisterPetController(RouteInterface):
             ):
                 user_information_params = http_request.body["user_information"].keys()
 
+                # Check if required user attributes are in body_params
                 if (
                     "user_id" in user_information_params
                     or "user_name" in user_information_params
@@ -54,6 +56,7 @@ class RegisterPetController(RouteInterface):
             else:
                 response = {"Success": False, "Data": None}
 
+            # If request failed, Unprocessable Entity
             if response["Success"] is False:
                 http_error = HttpErrors.error_422()
                 return HttpResponse(
@@ -62,6 +65,7 @@ class RegisterPetController(RouteInterface):
 
             return HttpResponse(status_code=200, body=response["Data"])
 
+        # Bad request
         http_error = HttpErrors.error_400()
         return HttpResponse(
             status_code=http_error["status_code"], body=http_error["body"]

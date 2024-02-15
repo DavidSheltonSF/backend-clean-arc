@@ -6,7 +6,7 @@ from src.presenters.erros import HttpErrors
 
 
 class FindUserController(RouteInterface):
-    """Class to define controller to find_user use case"""
+    """Class to define a controller to findUser use case"""
 
     def __init__(self, find_user_use_case: Type[FindUser]):
         self.find_user_use_case = find_user_use_case
@@ -16,7 +16,6 @@ class FindUserController(RouteInterface):
 
         response = None
 
-        print(http_request.query)
         # Check if there is a query in http_request
         if http_request.query:
             query_string_params = http_request.query.keys()

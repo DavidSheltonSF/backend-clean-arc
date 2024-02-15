@@ -8,7 +8,7 @@ faker = Faker()
 
 
 def test_route():
-    """Testing Route method"""
+    """Testing FindUserController route method"""
 
     find_user_use_case = FindUserSpy(UserRepositorySpy())
     find_user_controller = FindUserController(find_user_use_case)
@@ -41,7 +41,6 @@ def test_route_no_query_param():
     http_request = HttpRequest()
 
     response = find_user_controller.route(http_request)
-    print(response)
 
     # Testing inputs
     assert not find_user_use_case.by_id_and_name_param

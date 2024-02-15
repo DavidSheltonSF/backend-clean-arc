@@ -8,7 +8,8 @@ faker = Faker()
 
 
 def test_route():
-    """Testing RegisterUserController"""
+    """Testing RegisterPetController route method"""
+
     register_user_use_case = RegisterUserSpy(UserRepositorySpy())
     register_user_controller = RegisterUserController(register_user_use_case)
 
@@ -17,8 +18,6 @@ def test_route():
     http_request = HttpRequest(body=attributes)
 
     response = register_user_controller.route(http_request)
-
-    print(register_user_use_case.register_param)
     print(response)
 
     # Testing inputs

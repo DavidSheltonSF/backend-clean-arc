@@ -1,6 +1,6 @@
 ﻿[MAIN]
 
-disable=missing-module-docstring, import-error
+disable=missing-module-docstring, import-error, bare-except
 
 # Analyse import fallback blocks. This can be used to support both Python 2 and
 # 3 compatible code, which means that the block might have code that exists

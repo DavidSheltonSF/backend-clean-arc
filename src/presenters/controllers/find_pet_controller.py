@@ -6,7 +6,7 @@ from src.presenters.erros import HttpErrors
 
 
 class FindPetController(RouteInterface):
-    """Controller"""
+    """Class to define a controller to findPet use case"""
 
     def __init__(self, find_pet_use_case: Type[FindPet]):
         self.find_pet_use_case = find_pet_use_case
@@ -52,7 +52,7 @@ class FindPetController(RouteInterface):
             else:
                 response = {"Success": False, "Data": None}
 
-            # If request failed
+            # If request failed, Unprocessable Entity
             if response["Success"] is False:
                 http_error = HttpErrors.error_422()
                 return HttpResponse(
@@ -61,9 +61,8 @@ class FindPetController(RouteInterface):
 
             return HttpResponse(status_code=200, body=response["Data"])
 
-        # If there is no query in http_request
+        # Bad request
         http_error = HttpErrors.error_400()
-
         return HttpResponse(
             status_code=http_error["status_code"], body=http_error["body"]
         )

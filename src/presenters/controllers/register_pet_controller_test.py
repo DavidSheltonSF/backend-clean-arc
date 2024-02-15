@@ -9,7 +9,7 @@ faker = Faker()
 
 
 def test_route():
-    """Testing route method in RegisterUserRouter"""
+    """Testing RegisterPetController route method"""
 
     register_pet_use_case = RegisterPetSpy(PetRepositorySpy(), None)
     register_pet_router = RegisterPetController(register_pet_use_case)
@@ -25,8 +25,6 @@ def test_route():
     }
 
     response = register_pet_router.route(HttpRequest(body=attributes))
-    print(register_pet_use_case.register_param)
-    print(response)
 
     # Testing inputs
     assert register_pet_use_case.register_param["pet_name"] == attributes["pet_name"]

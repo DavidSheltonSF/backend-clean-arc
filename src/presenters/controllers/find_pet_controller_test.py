@@ -9,7 +9,7 @@ faker = Faker()
 
 
 def test_route():
-    """Testing route method"""
+    """Testing FindPetController route method"""
 
     find_pet_use_case = FindPetSpy(PetRepositorySpy())
     find_pet_controller = FindPetController(find_pet_use_case)
@@ -23,8 +23,6 @@ def test_route():
     )
 
     response = find_pet_controller.route(http_request)
-
-    print(find_pet_use_case.by_pet_id_and_user_id_param)
     print(response)
 
     # Testing inputs

@@ -23,7 +23,6 @@ def test_route():
     )
 
     response = find_pet_controller.route(http_request)
-    print(response)
 
     # Testing inputs
     assert (
@@ -37,3 +36,5 @@ def test_route():
     )
 
     # Testing outputs
+    assert response.status_code == 200
+    assert response.body

@@ -1,3 +1,5 @@
+""" This module contains the route composer functions"""
+
 from .register_user_composite import register_user_composer
 from .register_pet_composite import register_pet_composer
 from .find_user_composite import find_user_composer

@@ -18,10 +18,23 @@ def secret_route(token):
 
 @api_routes_bp.route("/api/auth", methods=["POST"])
 def authentification():
-    """_summary_"""
-    token = token_creator.create(user_id=12)
+    """Authentification route"""
 
-    return jsonify({"token": token}), 200
+    # Retrieve user's information from body
+    user_info = request.get_json()
+
+    # Check if user's id is registered in database
+    response = flask_adapter(request=request, api_route=find_user_composer())
+
+    if response.body:
+        print(response.body)
+
+        # Create a token using user's id
+        token = token_creator.create(user_id=user_info["user_id"])
+
+        return jsonify({"token": token}), 200
+    else:
+        return jsonify({"ERROR": "use not found"}), 400
 
 
 @api_routes_bp.route("/api/users", methods=["POST"])

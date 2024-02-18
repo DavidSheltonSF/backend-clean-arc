@@ -13,8 +13,7 @@ def token_verify(func):
         """_summary"""
 
         raw_token = request.headers.get("Authorization")
-        # user_id = request.headers.get("user_id")
-        print(request.headers)
+        user_id = request.headers.get("User-Id")
 
         # Check if raw_token is not in request
         if not raw_token:
@@ -28,19 +27,15 @@ def token_verify(func):
             token_info = jwt.decode(
                 jwt=token, key=jwt_config["TOKEN_KEY"], algorithms="HS256"
             )
-            # token_user_id = token_info["user_id"]
+            token_user_id = token_info["user_id"]
             print(token_info)
 
         except Exception as exc:
             print(exc)
             return jsonify({"error": "ERRORR!!!"}), 401
 
-        # if int(user_id) != token_user_id:
-        #     return jsonify(
-        #         {
-        #             "error": "User forbidden"
-        #         }
-        #     ), 400
+        if int(user_id) != token_user_id:
+            return jsonify({"error": "User forbidden"}), 400
 
         next_token = token_creator.refresh(token)
 

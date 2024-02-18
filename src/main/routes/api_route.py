@@ -4,8 +4,24 @@ from src.main.composer import register_pet_composer
 from src.main.composer import find_user_composer
 from src.main.composer import find_pet_composer
 from src.main.adapter import flask_adapter
+from src.main.auth_jwt import token_creator, token_verify
 
 api_routes_bp = Blueprint("api_routes", __name__)
+
+
+@api_routes_bp.route("/api/secret", methods=["GET"])
+@token_verify
+def secret_route(token):
+    """_summary_"""
+    return jsonify({"sucess": "Secret DATA!!!", "token": token}), 200
+
+
+@api_routes_bp.route("/api/auth", methods=["POST"])
+def authentification():
+    """_summary_"""
+    token = token_creator.create(user_id=12)
+
+    return jsonify({"token": token}), 200
 
 
 @api_routes_bp.route("/api/users", methods=["POST"])

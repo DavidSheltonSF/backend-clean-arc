@@ -18,15 +18,16 @@ class FindUserController(RouteInterface):
 
         # Check if there is headear but
         # there is not query in http_request
-        if http_request.header and not http_request.query:
+        if http_request.query:
 
-            # Retrieve user's id from header
-            user_id = http_request.header.get("User-Id")
+            if http_request.header:
+                # Retrieve user's id from header
+                user_id = http_request.header.get("User-Id")
 
-            # Find user by id
-            response = self.find_user_use_case.by_id(user_id=user_id)
+                # Find user by id
+                response = self.find_user_use_case.by_id(user_id=user_id)
 
-            return HttpResponse(status_code=200, body=response["Data"])
+                return HttpResponse(status_code=200, body=response["Data"])
 
         # Check if there is a query in http_request
         if http_request.query:

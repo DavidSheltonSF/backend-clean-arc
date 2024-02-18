@@ -25,7 +25,8 @@ def authentification():
 
     # Get user data from database
     response = flask_adapter(request=request, api_route=find_user_composer())
-
+    print(response)
+    print("*****")
     # Check if response have a body
     if response.body:
 
@@ -34,11 +35,12 @@ def authentification():
 
         return jsonify({"token": token}), 200
 
-    return jsonify({"ERROR": "use not found"}), 400
+    return jsonify({"Error": "user not found"}), 400
 
 
 @api_routes_bp.route("/api/users", methods=["POST"])
-def register_user():
+@token_verify
+def register_user(token):
     """Register user route"""
     message = {}
     response = flask_adapter(request=request, api_route=register_user_composer())
@@ -61,7 +63,8 @@ def register_user():
 
 
 @api_routes_bp.route("/api/pets", methods=["POST"])
-def register_pet():
+@token_verify
+def register_pet(token):
     """Register pet route"""
     message = {}
     response = flask_adapter(request=request, api_route=register_pet_composer())
@@ -89,7 +92,8 @@ def register_pet():
 
 
 @api_routes_bp.route("/api/users", methods=["GET"])
-def find_user():
+@token_verify
+def find_user(token):
     """Find user route"""
     message = {}
     response = flask_adapter(request=request, api_route=find_user_composer())
@@ -114,7 +118,8 @@ def find_user():
 
 
 @api_routes_bp.route("/api/pets", methods=["GET"])
-def find_pet():
+@token_verify
+def find_pet(token):
     """Find pet route"""
     message = {}
     response = flask_adapter(request=request, api_route=find_pet_composer())

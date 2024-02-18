@@ -6,7 +6,7 @@ from src.presenters.erros import HttpErrors
 
 
 class FindPetController(RouteInterface):
-    """Class to define a controller to findPet use case"""
+    """Class to define a controller to FindPet use case"""
 
     def __init__(self, find_pet_use_case: Type[FindPet]):
         self.find_pet_use_case = find_pet_use_case

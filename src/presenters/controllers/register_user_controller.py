@@ -6,7 +6,7 @@ from src.presenters.erros import HttpErrors
 
 
 class RegisterUserController(RouteInterface):
-    """_summary_"""
+    """Class to define a controller to RegisterUser use case"""
 
     def __init__(self, register_user_use_case: Type[RegisterUser]):
         self.register_user_use_case = register_user_use_case

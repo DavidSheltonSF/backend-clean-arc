@@ -9,25 +9,20 @@ class FindUserController(RouteInterface):
     """Class to define a controller to FindUser use case"""
 
     def __init__(self, find_user_use_case: Type[FindUser]):
+        """Constructor method
+
+        Args:
+            find_user_use_case (Type[FindUser]): _description_
+            check_user (bool): If it is False, the controller
+            will find user by id, name or both, if it is True,
+            it will check if user is in database finding user by id.
+        """
         self.find_user_use_case = find_user_use_case
 
     def route(self, http_request: Type[HttpRequest]) -> HttpResponse:
         """Method to call use case"""
 
         response = None
-
-        # Check if there is headear but
-        # there is not query in http_request
-        if http_request.query:
-
-            if http_request.header:
-                # Retrieve user's id from header
-                user_id = http_request.header.get("User-Id")
-
-                # Find user by id
-                response = self.find_user_use_case.by_id(user_id=user_id)
-
-                return HttpResponse(status_code=200, body=response["Data"])
 
         # Check if there is a query in http_request
         if http_request.query:

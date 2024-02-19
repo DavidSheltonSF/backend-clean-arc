@@ -9,13 +9,6 @@ from src.main.auth_jwt import token_creator, token_verify
 api_routes_bp = Blueprint("api_routes", __name__)
 
 
-@api_routes_bp.route("/api/secret", methods=["GET"])
-@token_verify
-def secret_route(token):
-    """_summary_"""
-    return jsonify({"sucess": "Secret DATA!!!", "token": token}), 200
-
-
 @api_routes_bp.route("/api/auth", methods=["POST"])
 def authentification():
     """Authentification route"""
@@ -24,13 +17,15 @@ def authentification():
     user_info = request.get_json()
 
     # Get user data from database
-    response = flask_adapter(request=request, api_route=find_user_composer())
-    print(response)
-    print("*****")
+    response = flask_adapter(
+        request=request,
+        api_route=find_user_composer(),
+    )
+
     # Check if response have a body
     if response.body:
 
-        # Create a token using user's id
+        # Create a token using user id
         token = token_creator.create(user_id=user_info["user_id"])
 
         return jsonify({"token": token}), 200
@@ -45,6 +40,7 @@ def register_user(token):
     message = {}
     response = flask_adapter(request=request, api_route=register_user_composer())
 
+    # Check that an error has not occurred
     if response.status_code < 300:
         message = {
             "Type": "users",
@@ -52,8 +48,8 @@ def register_user(token):
             "attributes": {"user_name": response.body.name},
         }
         return jsonify({"data": message}), response.status_code
-    # Handling Erros
 
+    # Handling Erros
     return (
         jsonify(
             {"error": {"status": response.status_code, "title": response.body["error"]}}
@@ -69,6 +65,7 @@ def register_pet(token):
     message = {}
     response = flask_adapter(request=request, api_route=register_pet_composer())
 
+    # Check that an error has not occurred
     if response.status_code < 300:
         message = {
             "Type": "pets",
@@ -81,8 +78,8 @@ def register_pet(token):
             "relationships": {"owner": {"type": "users", "id": response.body.user_id}},
         }
         return jsonify({"data": message}), response.status_code
-    # Handling Erros
 
+    # Handling Erros
     return (
         jsonify(
             {"error": {"status": response.status_code, "title": response.body["error"]}}
@@ -98,6 +95,7 @@ def find_user(token):
     message = {}
     response = flask_adapter(request=request, api_route=find_user_composer())
 
+    # Check that an error has not occurred
     if response.status_code < 300:
         message = []
 
@@ -112,6 +110,7 @@ def find_user(token):
 
         return jsonify({"data": message}), response.status_code
 
+    # Handling Erros
     return jsonify(
         {"error": {"status": response.status_code, "title": response.body["error"]}}
     )
@@ -124,6 +123,7 @@ def find_pet(token):
     message = {}
     response = flask_adapter(request=request, api_route=find_pet_composer())
 
+    # Check that an error has not occurred
     if response.status_code < 300:
         message = []
 
@@ -139,6 +139,7 @@ def find_pet(token):
 
         return jsonify({"data": message}), response.status_code
 
+    # Handling Erros
     return jsonify(
         {"error": {"status": response.status_code, "title": response.body["error"]}}
     )

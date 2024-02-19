@@ -34,9 +34,18 @@ def token_verify(func):
             # Retrieve user_id from token
             token_user_id = token_info["user_id"]
 
+        except jwt.ExpiredSignatureError:
+            return jsonify({"error": "Token Expired"}), 401
+
+        except jwt.InvalidSignatureError:
+            return jsonify({"error": "Invalid token"}), 400
+
+        except KeyError:
+            return jsonify({"error": "No user id in token"}), 400
+
         except Exception as exc:
             print(exc)
-            return jsonify({"error": "ERRORR!!!"}), 401
+            return jsonify({"error": "Someting is wrong with token"}), 400
 
         # Check if token id is equal the id of
         # the user that is doing the request

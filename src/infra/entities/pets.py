@@ -27,7 +27,7 @@ class Pets(Base):
     __tablename__ = "pets"
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(20), nullable=False, unique=True)
+    name = Column(String(20), nullable=False)
     specie = Column(Enum(AnimalTypes), nullable=False)
     age = Column(Integer)
     user_id = Column(Integer, ForeignKey("users.id"))

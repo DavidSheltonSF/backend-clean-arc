@@ -10,6 +10,8 @@ Faker==22.6.0
 filelock==3.13.1
 Flask==3.0.2
 Flask-Cors==4.0.0
+Flask-SQLAlchemy==3.1.1
+greenlet==3.0.3
 identify==2.5.33
 importlib-metadata==7.0.1
 iniconfig==2.0.0
@@ -30,7 +32,7 @@ python-dateutil==2.8.2
 python-dotenv==1.0.1
 PyYAML==6.0.1
 six==1.16.0
-SQLAlchemy==1.4.24
+SQLAlchemy==2.0.27
 tomli==2.0.1
 tomlkit==0.12.3
 typing_extensions==4.9.0

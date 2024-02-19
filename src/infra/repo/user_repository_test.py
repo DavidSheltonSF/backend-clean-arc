@@ -1,7 +1,12 @@
 from faker import Faker
+from sqlalchemy import text
 from src.infra.config import DBConnectionHandler
 from src.infra.entities import Users as UsersModel
+from src.infra.config import create_database
 from .user_repository import UserRepository
+
+
+create_database()
 
 faker = Faker()
 user_repository = UserRepository()
@@ -22,24 +27,30 @@ def test_insert_user():
     engine = db_connection_handler.get_engine()
 
     # Do a query to select the user fake data from database
-    query_user = engine.execute(
-        f"""
-        SELECT *
-        FROM users
-        WHERE id = {new_user.id}
-        """
-    ).fetchone()
+    with engine.connect() as conn:
+        query_user = conn.execute(
+            text(
+                f"""
+            SELECT *
+            FROM users
+            WHERE id = {new_user.id}
+            """
+            )
+        ).fetchone()
 
     # print(query_user)
     # print(new_user)
-
     # Delete the fake data from database
-    engine.execute(
-        f"""
-            DELETE FROM users
-            WHERE ID = {new_user.id}
-        """
-    )
+    with engine.connect() as conn:
+        conn.execute(
+            text(
+                f"""
+                DELETE FROM users
+                WHERE ID = {new_user.id}
+            """
+            )
+        )
+        conn.commit()
 
     # Check if user data inserted is
     # equal the user data selected by the query
@@ -63,12 +74,16 @@ def test_select_user():
     engine = db_connection_handler.get_engine()
 
     # Insert a fake user to test the query selection
-    engine.execute(
-        f"""
-            INSERT INTO USERS (id, name, password)
-            VALUES ('{user_id}', '{user_name}', '{password}')
-        """
-    )
+    with engine.connect() as conn:
+        conn.execute(
+            text(
+                f"""
+                INSERT INTO USERS (id, name, password)
+                VALUES ('{user_id}', '{user_name}', '{password}')
+            """
+            )
+        )
+        conn.commit()
 
     # Do 3 query selections to test
     query_user1 = user_repository.select_user(user_id=user_id)
@@ -82,4 +97,6 @@ def test_select_user():
     assert data in query_user3
 
     # Delete the fake user from database
-    engine.execute(f"DELETE FROM users WHERE id='{user_id}'")
+    with engine.connect() as conn:
+        conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
+        conn.commit()

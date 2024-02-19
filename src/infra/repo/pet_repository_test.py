@@ -1,4 +1,5 @@
 from faker import Faker
+from sqlalchemy import text
 from src.infra.config import DBConnectionHandler
 from src.infra.entities import Pets as PetsModel
 from src.infra.repo import PetRepository
@@ -27,24 +28,31 @@ def test_insert_pet():
     engine = db_connection_handler.get_engine()
 
     # Do a query to select the pet fake data from database
-    query_pet = engine.execute(
-        f"""
-        SELECT *
-        FROM pets
-        WHERE ID = {new_pet.id}
-        """
-    ).fetchone()
+    with engine.connect() as conn:
+        query_pet = conn.execute(
+            text(
+                f"""
+            SELECT *
+            FROM pets
+            WHERE ID = {new_pet.id}
+            """
+            )
+        ).fetchone()
 
     # print(query_pet)
     # print(new_pet)
 
     # Delete the fake data from database
-    engine.execute(
-        f"""
-        DELETE FROM pets
-        WHERE ID = {new_pet.id}
-        """
-    )
+    with engine.connect() as conn:
+        conn.execute(
+            text(
+                f"""
+            DELETE FROM pets
+            WHERE ID = {new_pet.id}
+            """
+            )
+        )
+        conn.commit()
 
     # Check if pet data inserted is
     # equal the pet data selected by the query
@@ -74,14 +82,18 @@ def test_select_pet():
     engine = db_connection_handler.get_engine()
 
     # Insert a fake pet to test the query selection
-    engine.execute(
-        f"""
-            INSERT INTO pets
-            (id, name, specie, age, user_id)
-            VALUES
-            ('{pet_id}', '{pet_name}', '{specie}', '{age}', '{user_id}')
-        """
-    )
+    with engine.connect() as conn:
+        conn.execute(
+            text(
+                f"""
+                INSERT INTO pets
+                (id, name, specie, age, user_id)
+                VALUES
+                ('{pet_id}', '{pet_name}', '{specie}', '{age}', '{user_id}')
+            """
+            )
+        )
+        conn.commit()
 
     # Do 3 query selections to test
     query_pet1 = pet_repository.select_pet(pet_id=pet_id)
@@ -96,7 +108,11 @@ def test_select_pet():
 
     if pet_id:
         # Delete the fake pet from database
-        engine.execute(f"DELETE FROM pets WHERE id='{pet_id}'")
+        with engine.connect() as conn:
+            conn.execute(text(f"DELETE FROM pets WHERE id='{pet_id}'"))
+            conn.commit()
     elif user_id:
         # Delete the fake pet from database
-        engine.execute(f"DELETE FROM pets WHERE user_id='{user_id}'")
+        with engine.connect() as conn:
+            conn.execute(text(f"DELETE FROM pets WHERE user_id='{user_id}'"))
+            conn.commit()

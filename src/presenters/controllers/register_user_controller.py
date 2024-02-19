@@ -12,7 +12,7 @@ class RegisterUserController(RouteInterface):
         self.register_user_use_case = register_user_use_case
 
     def route(self, http_request: Type[HttpRequest]) -> HttpResponse:
-        """___"""
+        """Method to call use case"""
 
         response = None
 

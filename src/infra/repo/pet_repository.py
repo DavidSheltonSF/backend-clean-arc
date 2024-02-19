@@ -103,6 +103,7 @@ class PetRepository(PetRepositoryInterface):
 
             return query_data
 
+        # If no pet was founded
         except NoResultFound:
             return []
 

@@ -94,6 +94,7 @@ class UserRepository(UserRepositoryInterface):
 
             return query_data
 
+        # If no user was founded
         except NoResultFound:
             return []
 

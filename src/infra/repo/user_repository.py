@@ -14,7 +14,7 @@ class UserRepository(UserRepositoryInterface):
         """Insert data in user entity
 
         Args:
-            nauser_nameme (str): user name
+            user_nameme (str): user name
             password (str): user password
 
         Return:
@@ -75,9 +75,9 @@ class UserRepository(UserRepositoryInterface):
                     data = (
                         db_connection.session.query(UsersModel)
                         .filter_by(name=user_name)
-                        .one()
+                        .all()
                     )
-                    query_data = [data]
+                    query_data = data
 
             # Check if has id and name
             elif user_id and user_name:
@@ -97,6 +97,62 @@ class UserRepository(UserRepositoryInterface):
         # If no user was founded
         except NoResultFound:
             return []
+
+        except:
+            db_connection.session.rollback()
+            raise
+
+        finally:
+            db_connection.session.close()
+
+    @classmethod
+    def update_user(cls, user_id: int, user_name: str, password: str) -> Users:
+        """Update data in user entity
+
+        Args:
+            use_id (int): user name
+
+        Return:
+            (NamedTuple => Users): Returns the updated user data
+        """
+
+        with DBConnectionHandler() as db_connection:
+            try:
+                user = (
+                    db_connection.session.query(UsersModel).filter_by(id=user_id).one()
+                )
+                user.name = user_name
+                user.password = password
+                db_connection.session.commit()
+                return Users(id=user_id, name=user_name, password=password)
+
+            except NoResultFound:
+                return None
+
+            except:
+                db_connection.session.rollback()
+                raise
+            finally:
+                db_connection.session.close()
+
+    @classmethod
+    def delete_user(cls, user_id: int) -> Users:
+        """Delete data in user entity
+
+        Args:
+            use_id (int): user id
+
+        Return:
+            (NamedTuple => Users): Returns the deleted user data
+        """
+        try:
+            with DBConnectionHandler() as db_connection:
+                user = db_connection.session.query(UsersModel).find_by(id=user_id).one()
+                db_connection.session.delete(user)
+                db_connection.session.commit()
+
+        except NoResultFound:
+            return None
 
         except:
             db_connection.session.rollback()

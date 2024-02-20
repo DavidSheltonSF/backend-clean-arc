@@ -100,3 +100,70 @@ def test_select_user():
     with engine.connect() as conn:
         conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
         conn.commit()
+
+
+def test_update_user():
+    """Testing the User repository update_user method"""
+
+    # Intance fake data to insert before updating
+    user_id = faker.random_number(digits=5)
+    user_name = faker.name()
+    password = faker.word()
+
+    # Get the database engine
+    engine = db_connection_handler.get_engine()
+
+    # Insert a fake user to test the query selection
+    with engine.connect() as conn:
+        conn.execute(
+            text(
+                f"""
+                INSERT INTO USERS (id, name, password)
+                VALUES ('{user_id}', '{user_name}', '{password}')
+            """
+            )
+        )
+        conn.commit()
+
+    # Do query uptate to test
+    updated_data = user_repository.update_user(
+        user_id=user_id, user_name=user_name, password=password
+    )
+
+    # Select data by user_id
+    selection = user_repository.select_user(user_id=user_id)
+
+    # Check if updated data is equal data selected
+    assert updated_data.id == selection[0].id
+    assert updated_data.name == selection[0].name
+    assert updated_data.password == selection[0].password
+
+    # Delete the fake user from database
+    with engine.connect() as conn:
+        conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
+        conn.commit()
+
+
+def test_update_user_no_result_found():
+    """Testing the User repository update_user method"""
+
+    # Intance fake data to insert before updating
+    user_id = faker.random_number(digits=5)
+    user_name = faker.name()
+    password = faker.word()
+
+    # Get the database engine
+    engine = db_connection_handler.get_engine()
+
+    # Do query uptate to test
+    updated_data = user_repository.update_user(
+        user_id=user_id, user_name=user_name, password=password
+    )
+
+    # Check if updated data is None
+    assert updated_data is None
+
+    # Delete the fake user from database
+    with engine.connect() as conn:
+        conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
+        conn.commit()

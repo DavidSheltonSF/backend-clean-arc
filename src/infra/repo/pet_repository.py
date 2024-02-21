@@ -115,9 +115,7 @@ class PetRepository(PetRepositoryInterface):
             db_connection.session.close()
 
     @classmethod
-    def update_pet(
-        cls, pet_id: int, pet_name: str, specie: str, age: int, user_id: int
-    ) -> Pets:
+    def update_pet(cls, pet_id: int, pet_name: str, specie: str, age: int) -> Pets:
         """Update data in pet entity
 
         Args:
@@ -132,7 +130,6 @@ class PetRepository(PetRepositoryInterface):
                 pet.name = pet_name
                 pet.specie = specie
                 pet.age = age
-                pet.user_id = user_id
                 db_connection.session.commit()
                 return Pets(
                     id=pet.id,

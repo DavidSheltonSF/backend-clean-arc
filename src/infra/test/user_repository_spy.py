@@ -9,6 +9,7 @@ class UserRepositorySpy:
     def __init__(self):
         self.insert_user_params = {}
         self.select_user_params = {}
+        self.update_user_params = {}
 
     def insert_user(self, user_name: str, password: str) -> Users:
         """Spy to UserRepository.insert_user method"""
@@ -23,3 +24,11 @@ class UserRepositorySpy:
         self.select_user_params["user_name"] = user_name
 
         return [mock_users()]
+
+    def update_user(self, user_id: int, user_name: str, password: str) -> Users:
+        """Spy to UserRepository.update_user method"""
+        self.update_user_params["user_id"] = user_id
+        self.update_user_params["user_name"] = user_name
+        self.update_user_params["password"] = password
+
+        return mock_users()

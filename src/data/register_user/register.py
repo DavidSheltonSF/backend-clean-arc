@@ -22,7 +22,7 @@ class RegisterUser(RegisterUserInterface):
             password (str): User's password
 
         Returns:
-            Dict[bool, users]: Dictionary with imformation of the process
+            Dict[bool, users]: Dictionary with iformation of the process
         """
 
         response = None

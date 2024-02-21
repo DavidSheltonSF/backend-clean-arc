@@ -17,3 +17,17 @@ class PetRepositoryInterface(ABC):
     def select_pet(cls, pet_id: int = None, user_id: int = None) -> List[Pets]:
         """Abstract method"""
         raise NotImplementedError("Should implement method: select_pet")
+
+    @classmethod
+    @abstractmethod
+    def update_pet(
+        cls, pet_id: int, pet_name: str, specie: str, age: int, user_id: int
+    ) -> List[Pets]:
+        """Abstract method"""
+        raise NotImplementedError("Should implement method: update_pet")
+
+    @classmethod
+    @abstractmethod
+    def delete_pet(cls, pet_id: int) -> List[Pets]:
+        """Abstract method"""
+        raise NotImplementedError("Should implement method: delete_pet")

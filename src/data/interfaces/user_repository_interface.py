@@ -22,10 +22,10 @@ class UserRepositoryInterface(ABC):
     @abstractmethod
     def update_user(cls, user_id: int, user_name: str, password: str) -> List[Users]:
         """Abstract method"""
-        raise NotImplementedError("Should implement method: select_user")
+        raise NotImplementedError("Should implement method: update_user")
 
     @classmethod
     @abstractmethod
     def delete_user(cls, user_id: int) -> List[Users]:
         """Abstract method"""
-        raise NotImplementedError("Should implement method: select_user")
+        raise NotImplementedError("Should implement method: delete_user")

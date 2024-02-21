@@ -113,3 +113,74 @@ class PetRepository(PetRepositoryInterface):
 
         finally:
             db_connection.session.close()
+
+    @classmethod
+    def update_pet(
+        cls, pet_id: int, pet_name: str, specie: str, age: int, user_id: int
+    ) -> Pets:
+        """Update data in pet entity
+
+        Args:
+
+        Return:
+            (NamedTuple => Pets): Returns the updated user data
+        """
+
+        with DBConnectionHandler() as db_connection:
+            try:
+                pet = db_connection.session.query(PetsModel).filter_by(id=pet_id).one()
+                pet.name = pet_name
+                pet.specie = specie
+                pet.age = age
+                pet.user_id = user_id
+                db_connection.session.commit()
+                return Pets(
+                    id=pet.id,
+                    name=pet.name,
+                    specie=pet.specie.name,
+                    age=pet.age,
+                    user_id=pet.user_id,
+                )
+
+            except NoResultFound:
+                return None
+
+            except:
+                db_connection.session.rollback()
+                raise
+            finally:
+                db_connection.session.close()
+
+    @classmethod
+    def delete_pet(cls, pet_id: int) -> Pets:
+        """Delete data in pet entity
+
+        Args:
+            use_id (int): pet id
+
+        Return:
+            (NamedTuple => Pets): Returns the deleted pet data
+        """
+        try:
+            with DBConnectionHandler() as db_connection:
+                pet = db_connection.session.query(PetsModel).filter_by(id=pet_id).one()
+                db_connection.session.delete(pet)
+                db_connection.session.commit()
+
+            return Pets(
+                id=pet.id,
+                name=pet.name,
+                specie=pet.specie.name,
+                age=pet.age,
+                user_id=pet.user_id,
+            )
+
+        except NoResultFound:
+            return None
+
+        except:
+            db_connection.session.rollback()
+            raise
+
+        finally:
+            db_connection.session.close()

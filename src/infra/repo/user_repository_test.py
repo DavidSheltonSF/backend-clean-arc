@@ -167,3 +167,67 @@ def test_update_user_no_result_found():
     with engine.connect() as conn:
         conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
         conn.commit()
+
+
+def test_delete_user():
+    """Testing the User repository delete_user method"""
+
+    # Intance fake data to insert before deletion
+    user_id = faker.random_number(digits=5)
+    user_name = faker.name()
+    password = faker.word()
+
+    # Get the database engine
+    engine = db_connection_handler.get_engine()
+
+    # Insert a fake user
+    with engine.connect() as conn:
+        conn.execute(
+            text(
+                f"""
+                INSERT INTO USERS (id, name, password)
+                VALUES ('{user_id}', '{user_name}', '{password}')
+            """
+            )
+        )
+        conn.commit()
+
+    # Delete fake user
+    deleted_data = user_repository.delete_user(user_id=user_id)
+
+    # Select data by user_id
+    selection = user_repository.select_user(user_id=user_id)
+
+    # Check return of delete_user method
+    assert deleted_data.id == user_id
+    assert deleted_data.name == user_name
+    assert deleted_data.password == password
+
+    # Check if deleted data is not in database
+    assert not selection
+
+    # Delete the fake user from database
+    with engine.connect() as conn:
+        conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
+        conn.commit()
+
+
+def test_delete_user_no_result_found():
+    """Testing the User repository delete_user method"""
+
+    # Intance fake data to insert before deletion
+    user_id = faker.random_number(digits=5)
+
+    # Get the database engine
+    engine = db_connection_handler.get_engine()
+
+    # Do query uptate to test
+    deleted_data = user_repository.delete_user(user_id=user_id)
+
+    # Check if updated data is None
+    assert deleted_data is None
+
+    # Delete the fake user from database
+    with engine.connect() as conn:
+        conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
+        conn.commit()

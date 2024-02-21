@@ -147,9 +147,13 @@ class UserRepository(UserRepositoryInterface):
         """
         try:
             with DBConnectionHandler() as db_connection:
-                user = db_connection.session.query(UsersModel).find_by(id=user_id).one()
+                user = (
+                    db_connection.session.query(UsersModel).filter_by(id=user_id).one()
+                )
                 db_connection.session.delete(user)
                 db_connection.session.commit()
+
+            return Users(id=user.id, name=user.name, password=user.password)
 
         except NoResultFound:
             return None

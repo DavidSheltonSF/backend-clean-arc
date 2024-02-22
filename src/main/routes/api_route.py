@@ -150,8 +150,8 @@ def find_pet(token):
 
 
 @api_routes_bp.route("/api/users", methods=["PUT"])
-# @token_verify
-def alter_user():
+@token_verify
+def alter_user(token):
     """Find user route"""
     message = {}
     response = flask_adapter(request=request, api_route=alter_user_composer())

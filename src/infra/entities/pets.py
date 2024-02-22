@@ -30,7 +30,9 @@ class Pets(Base):
     name = Column(String(20), nullable=False)
     specie = Column(Enum(AnimalTypes), nullable=False)
     age = Column(Integer)
-    user_id = Column(Integer, ForeignKey("users.id"))
+    user_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE", onupdate="CASCADE")
+    )
 
     def __repr__(self):
         """Represents the instance of this class by a string

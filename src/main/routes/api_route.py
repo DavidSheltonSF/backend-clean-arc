@@ -38,8 +38,8 @@ def authentification():
 
 
 @api_routes_bp.route("/api/users", methods=["POST"])
-@token_verify
-def register_user(token):
+# @token_verify
+def register_user():
     """Register user route"""
     message = {}
     response = flask_adapter(request=request, api_route=register_user_composer())
@@ -176,8 +176,8 @@ def alter_user():
 
 
 @api_routes_bp.route("/api/pets", methods=["PUT"])
-# @token_verify
-def alter_pet():
+@token_verify
+def alter_pet(token):
     """Find pet route"""
     message = {}
     response = flask_adapter(request=request, api_route=alter_pet_composer())
@@ -207,8 +207,8 @@ def alter_pet():
 
 
 @api_routes_bp.route("/api/users", methods=["DELETE"])
-# @token_verify
-def remove_user():
+@token_verify
+def remove_user(tonken):
     """Remove user route"""
     message = {}
     response = flask_adapter(request=request, api_route=remove_user_composer())
@@ -233,8 +233,8 @@ def remove_user():
 
 
 @api_routes_bp.route("/api/pets", methods=["DELETE"])
-# @token_verify
-def remove_pet():
+@token_verify
+def remove_pet(token):
     """Find pet route"""
     message = {}
     response = flask_adapter(request=request, api_route=remove_pet_composer())

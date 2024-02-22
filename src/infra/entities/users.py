@@ -18,7 +18,7 @@ class Users(Base):
     password = Column(String, nullable=False)
 
     # Inform that there is an relationship with Pets table
-    id_pet = relationship("Pets")  # Yes, "Pets" is right!
+    id_pet = relationship("Pets", cascade="all, delete-orphan")  # Yes, "Pets" is right!
 
     def __rep__(self):
         """Represents the instance of this class by a string

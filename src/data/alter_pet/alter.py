@@ -15,7 +15,7 @@ class AlterPet(AlterPetInterface):
         self.pet_repository = pet_repository
 
     def alter(
-        self, pet_id: int, pet_name: str, specie: str, age: int
+        self, pet_id: int, pet_name: str, specie: str, age: int = None
     ) -> Dict[bool, Pets]:
         """Alter pet use case
 

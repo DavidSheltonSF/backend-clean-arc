@@ -12,7 +12,6 @@ class AlterPet(ABC):
         pet_id: int,
         pet_name: str,
         specie: str,
-        user_information: Dict[int, str],
         age: int = None,
     ) -> Dict[bool, Pets]:
         """Case"""

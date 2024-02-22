@@ -32,15 +32,13 @@ class AlterPet(AlterPetInterface):
         response = None
 
         validate_entry = (
-            isinstance(pet_id, int),
-            isinstance(pet_name, str),
-            isinstance(specie, str),
-            isinstance(age, int),
+            isinstance(pet_id, int)
+            and isinstance(pet_name, str)
+            and isinstance(specie, str)
+            and isinstance(age, int)
         )
 
-        checker = None
-
-        if validate_entry and checker:
+        if validate_entry:
             response = self.pet_repository.update_pet(
                 pet_id=pet_id,
                 pet_name=pet_name,
@@ -48,4 +46,4 @@ class AlterPet(AlterPetInterface):
                 age=age,
             )
 
-        return {"Sucess": validate_entry, "Data": response}
+        return {"Success": validate_entry, "Data": response}

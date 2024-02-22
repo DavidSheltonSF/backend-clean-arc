@@ -15,7 +15,7 @@ class AlterPetController(RouteInterface):
         """Method to call use case"""
 
         response = None
-
+        print(http_request.body)
         # Check if there is a body in http_request
         if http_request.body:
             body_params = http_request.body.keys()

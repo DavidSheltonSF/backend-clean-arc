@@ -21,7 +21,7 @@ class RemoveUserSpy:
 
         response = None
 
-        validate_entry = isinstance(user_id, str)
+        validate_entry = isinstance(user_id, int)
 
         if validate_entry:
             response = mock_users()

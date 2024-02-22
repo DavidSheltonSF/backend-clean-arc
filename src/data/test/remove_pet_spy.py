@@ -21,7 +21,7 @@ class RemovePetSpy:
 
         response = None
 
-        validate_entry = isinstance(pet_id, str)
+        validate_entry = isinstance(pet_id, int)
 
         if validate_entry:
             response = mock_pets()

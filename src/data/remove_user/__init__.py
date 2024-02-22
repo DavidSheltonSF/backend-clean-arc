@@ -1,3 +1,3 @@
-"""Delete User user case"""
+"""Remove User user case"""
 
 from .remove import RemoveUser

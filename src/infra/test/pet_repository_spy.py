@@ -10,6 +10,7 @@ class PetRepositorySpy:
         self.insert_pet_params = {}
         self.select_pet_params = {}
         self.update_pet_params = {}
+        self.delete_pet_params = {}
 
     def insert_pet(
         self,
@@ -39,5 +40,11 @@ class PetRepositorySpy:
         self.update_pet_params["pet_name"] = pet_name
         self.update_pet_params["specie"] = specie
         self.update_pet_params["age"] = age
+
+        return mock_pets()
+
+    def delete_pet(self, pet_id: int) -> Pets:
+        """Spy to PetRepository.delete_pet method"""
+        self.delete_pet_params["pet_id"] = pet_id
 
         return mock_pets()

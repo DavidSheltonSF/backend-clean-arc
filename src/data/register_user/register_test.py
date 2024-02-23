@@ -1,4 +1,5 @@
 from faker import Faker
+from werkzeug.security import check_password_hash
 from src.infra.test import UserRepositorySpy
 from .register import RegisterUser
 
@@ -21,7 +22,9 @@ def test_register():
 
     # testing inputs
     assert user_repo.insert_user_params["user_name"] == attributes["user_name"]
-    assert user_repo.insert_user_params["password"] == attributes["password"]
+    assert check_password_hash(
+        user_repo.insert_user_params["password"], attributes["password"]
+    )
 
     # testing outputs
     assert response["Success"] is True

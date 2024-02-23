@@ -1,4 +1,5 @@
 from faker import Faker
+from werkzeug.security import check_password_hash
 from src.infra.test import UserRepositorySpy
 from .alter import AlterUser
 
@@ -26,7 +27,9 @@ def test_alter():
     # testing inputs
     assert user_repo.update_user_params["user_id"] == attributes["user_id"]
     assert user_repo.update_user_params["user_name"] == attributes["user_name"]
-    assert user_repo.update_user_params["password"] == attributes["password"]
+    assert check_password_hash(
+        user_repo.update_user_params["password"], attributes["password"]
+    )
 
     # testing outputs
     assert response["Success"] is True

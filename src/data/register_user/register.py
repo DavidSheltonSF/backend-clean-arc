@@ -1,4 +1,5 @@
 from typing import Type, Dict
+from werkzeug.security import generate_password_hash
 from src.domain.use_cases import RegisterUser as RegisterUserInterface
 from src.data.interfaces import UserRepositoryInterface as UserRepository
 from src.domain.models import Users
@@ -30,6 +31,8 @@ class RegisterUser(RegisterUserInterface):
         validate_entry = isinstance(user_name, str) and isinstance(password, str)
 
         if validate_entry:
-            response = self.user_repository.insert_user(user_name, password)
+            response = self.user_repository.insert_user(
+                user_name, generate_password_hash(password)
+            )
 
         return {"Success": validate_entry, "Data": response}

@@ -1,4 +1,5 @@
 from typing import Type, Dict
+from werkzeug.security import generate_password_hash
 from src.domain.use_cases import AlterUser as AlterUserInterface
 from src.domain.models import Users
 from src.infra.repo import UserRepository
@@ -36,7 +37,9 @@ class AlterUser(AlterUserInterface):
 
         if validate_entry:
             response = self.user_repository.update_user(
-                user_id=user_id, user_name=user_name, password=password
+                user_id=user_id,
+                user_name=user_name,
+                password=generate_password_hash(password),
             )
 
         return {"Success": validate_entry, "Data": response}

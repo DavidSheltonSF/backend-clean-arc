@@ -20,6 +20,7 @@ Uma API de estudo para o CRUD de dados de Usuários e seus Pets.
 - Sqlalchemy
 - git e github
 - jwt (autentificação)
+- werkzeug (converter senhas hash)
 
 
 Este é um projeto backend que estou desenvolvi a partir da playlist de Clean Architecture com Python do canal Programador Lhama.

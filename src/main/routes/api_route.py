@@ -116,13 +116,11 @@ def find_user():
     data = request.args.to_dict()
 
     # Update user dictionary
-    for k in user:
-        if k in data.keys():
-            user[k] = data[k]
+    user.update(data)
 
     key = f"User(id={user['user_id']}, name={user['user_name']})"
 
-    response = response = cache.get(key)
+    response = cache.get(key)
 
     if not response:
         response = flask_adapter(request=request, api_route=find_user_composer())

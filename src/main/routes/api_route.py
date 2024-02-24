@@ -152,7 +152,19 @@ def find_user():
 def find_pet(token):
     """Find pet route"""
     message = {}
-    response = flask_adapter(request=request, api_route=find_pet_composer())
+
+    pet = {"pet_id": 0, "user_id": 0}
+
+    data = request.args.to_dict()
+
+    pet.update(data)
+
+    key = f"Pet(id={pet['pet_id']}, user_id={pet['user_id']})"
+
+    response = cache.get(key)
+
+    if not response:
+        response = flask_adapter(request=request, api_route=find_pet_composer())
 
     # Check that an error has not occurred
     if response.status_code < 300:
@@ -167,6 +179,9 @@ def find_pet(token):
                     "relationships": {"user_id": element.user_id},
                 }
             )
+
+        if not cache.get(key):
+            cache.set(key, response)
 
         return jsonify({"data": message}), response.status_code
 

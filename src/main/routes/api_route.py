@@ -9,6 +9,8 @@ from src.main.composer import remove_user_composer
 from src.main.composer import remove_pet_composer
 from src.main.adapter import flask_adapter
 from src.main.auth_jwt import token_creator, token_verify
+from src.main.caching import cache
+
 
 api_routes_bp = Blueprint("api_routes", __name__)
 
@@ -93,11 +95,28 @@ def register_pet(token):
 
 
 @api_routes_bp.route("/api/users", methods=["GET"])
-@token_verify
-def find_user(token):
+# @token_verify
+def find_user():
     """Find user route"""
     message = {}
-    response = flask_adapter(request=request, api_route=find_user_composer())
+
+    user = {"user_id": None, "user_name": ""}
+
+    # Retrieve query params from request
+    data = request.args.to_dict()
+
+    # Update user dictionary
+    for k in user:
+        if k in data.keys():
+            user[k] = data[k]
+
+    key = f"User(id={user['user_id']}, name={user['user_name']})"
+
+    if cache.get(key):
+        response = cache.get(key)
+
+    else:
+        response = flask_adapter(request=request, api_route=find_user_composer())
 
     # Check that an error has not occurred
     if response.status_code < 300:
@@ -112,6 +131,7 @@ def find_user(token):
                 }
             )
 
+        cache.set(key, response)
         return jsonify({"data": message}), response.status_code
 
     # Handling Erros

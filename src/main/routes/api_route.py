@@ -22,6 +22,13 @@ def authentification():
     # Retrieve user information from body
     user_info = request.get_json()
 
+    # Key to cache token
+    key = f"Token: User(id={user_info['user_id']}"
+
+    # Check if token is cached
+    if cache.get(key):
+        return jsonify({"token": cache.get(key)}), 200
+
     # Get user data from database
     response = flask_adapter(
         request=request,
@@ -33,6 +40,9 @@ def authentification():
 
         # Create a token using user id
         token = token_creator.create(user_id=user_info["user_id"])
+
+        # Cache token
+        cache.set(key, token)
 
         return jsonify({"token": token}), 200
 

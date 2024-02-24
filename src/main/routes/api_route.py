@@ -122,10 +122,9 @@ def find_user():
 
     key = f"User(id={user['user_id']}, name={user['user_name']})"
 
-    if cache.get(key):
-        response = cache.get(key)
+    response = response = cache.get(key)
 
-    else:
+    if not response:
         response = flask_adapter(request=request, api_route=find_user_composer())
 
     # Check that an error has not occurred

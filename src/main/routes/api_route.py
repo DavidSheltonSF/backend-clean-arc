@@ -9,13 +9,13 @@ from src.main.composer import remove_user_composer
 from src.main.composer import remove_pet_composer
 from src.main.adapter import flask_adapter
 from src.main.auth_jwt import token_creator, token_verify
-from src.main.caching import cache, make_cache_key
+from src.main.caching import cache, make_my_cache_key
 
 api_routes_bp = Blueprint("api_routes", __name__)
 
 
 @api_routes_bp.route("/api/auth", methods=["POST"])
-@cache.cached(make_cache_key=make_cache_key)
+@cache.cached(make_cache_key=make_my_cache_key)
 def authentification():
     """Authentification route"""
 
@@ -96,7 +96,7 @@ def register_pet(token):
 
 
 @api_routes_bp.route("/api/users", methods=["GET"])
-@cache.cached(make_cache_key=make_cache_key)
+@cache.cached(make_cache_key=make_my_cache_key)
 @token_verify
 def find_user(token):
     """Find user route"""
@@ -127,7 +127,7 @@ def find_user(token):
 
 
 @api_routes_bp.route("/api/pets", methods=["GET"])
-@cache.cached(make_cache_key=make_cache_key)
+@cache.cached(make_cache_key=make_my_cache_key)
 @token_verify
 def find_pet(token):
     """Find pet route"""

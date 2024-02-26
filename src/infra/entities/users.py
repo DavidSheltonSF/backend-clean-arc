@@ -20,6 +20,13 @@ class Users(Base):
     # Inform that there is an relationship with Pets table
     id_pet = relationship("Pets", cascade="all, delete-orphan")  # Yes, "Pets" is right!
 
+    @classmethod
+    def row_to_user(cls, row):
+        """Convert a row into User a instance"""
+        # Maybe it's necessary an error handling
+
+        return Users(id=row.id, name=row.name, password=row.password)
+
     def __rep__(self):
         """Represents the instance of this class by a string
 

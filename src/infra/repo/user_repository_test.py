@@ -3,7 +3,6 @@ from sqlalchemy import text
 from src.infra.config import DBConnectionHandler
 from src.infra.entities import Users as UsersModel
 from src.infra.config import create_database
-from src.infra.entities import Users
 from .user_repository import UserRepository
 
 
@@ -39,8 +38,6 @@ def test_insert_user():
             )
         ).fetchone()
 
-    # print(query_user)
-    # print(new_user)
     # Delete the fake data from database
     with engine.connect() as conn:
         conn.execute(
@@ -114,10 +111,7 @@ def test_select_user():
         conn.commit()
 
     # Convert rows from database into User instances
-    query_full_data = [Users.row_to_user(row) for row in query_rows]
-
-    print(type(query_user3[0]))
-    print(type(query_full_data[0]))
+    query_full_data = [UsersModel.row_to_user(row) for row in query_rows]
 
     # Check if selection by engine is equal selection by repository
     assert all(qfull == q3 for qfull, q3 in zip(query_full_data, query_user3))

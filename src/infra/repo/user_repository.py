@@ -75,16 +75,12 @@ class UserRepository(UserRepositoryInterface):
                     )
                     query_data = data
 
-                # Check if has id and name
-                elif user_id and user_name:
+                # Check if has not id or name
+                elif not user_id and not user_name:
 
                     # select user by id and by name, and get one
-                    data = (
-                        db_connection.session.query(UsersModel)
-                        .filter_by(id=user_id, name=user_name)
-                        .one()
-                    )
-                    query_data = [data]
+                    data = db_connection.session.query(UsersModel).all()
+                    query_data = data
 
                 return query_data
 

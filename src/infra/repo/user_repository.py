@@ -33,9 +33,8 @@ class UserRepository(UserRepositoryInterface):
                 )
             except:
                 db_connection.session.rollback()
-                raise
-            finally:
                 db_connection.session.close()
+                raise
 
     @classmethod
     def select_user(cls, user_id: int = None, user_name: str = None) -> List[Users]:
@@ -53,12 +52,11 @@ class UserRepository(UserRepositoryInterface):
 
         # Try select users in database
         try:
-            # Check if has id but has not name
-            if user_id and not user_name:
+            with DBConnectionHandler() as db_connection:
+                # Check if has id but has not name
+                if user_id and not user_name:
 
-                # Open database connection,
-                # select user by id and get one
-                with DBConnectionHandler() as db_connection:
+                    # select user by id and get one
                     data = (
                         db_connection.session.query(UsersModel)
                         .filter_by(id=user_id)
@@ -66,12 +64,10 @@ class UserRepository(UserRepositoryInterface):
                     )
                     query_data = [data]
 
-            # Check if has not id but has name
-            elif not user_id and user_name:
+                # Check if has not id but has name
+                elif not user_id and user_name:
 
-                # Open database connection,
-                # select user by name and get one
-                with DBConnectionHandler() as db_connection:
+                    # select user by name and get one
                     data = (
                         db_connection.session.query(UsersModel)
                         .filter_by(name=user_name)
@@ -79,12 +75,10 @@ class UserRepository(UserRepositoryInterface):
                     )
                     query_data = data
 
-            # Check if has id and name
-            elif user_id and user_name:
+                # Check if has id and name
+                elif user_id and user_name:
 
-                # Open database connection,
-                # select user by id and by name, and get one
-                with DBConnectionHandler() as db_connection:
+                    # select user by id and by name, and get one
                     data = (
                         db_connection.session.query(UsersModel)
                         .filter_by(id=user_id, name=user_name)
@@ -92,7 +86,7 @@ class UserRepository(UserRepositoryInterface):
                     )
                     query_data = [data]
 
-            return query_data
+                return query_data
 
         # If no user was founded
         except NoResultFound:
@@ -100,10 +94,8 @@ class UserRepository(UserRepositoryInterface):
 
         except:
             db_connection.session.rollback()
-            raise
-
-        finally:
             db_connection.session.close()
+            raise
 
     @classmethod
     def update_user(cls, user_id: int, user_name: str, password: str) -> Users:
@@ -131,9 +123,8 @@ class UserRepository(UserRepositoryInterface):
 
             except:
                 db_connection.session.rollback()
-                raise
-            finally:
                 db_connection.session.close()
+                raise
 
     @classmethod
     def delete_user(cls, user_id: int) -> Users:
@@ -160,7 +151,5 @@ class UserRepository(UserRepositoryInterface):
 
         except:
             db_connection.session.rollback()
-            raise
-
-        finally:
             db_connection.session.close()
+            raise

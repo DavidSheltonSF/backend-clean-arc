@@ -62,7 +62,7 @@ def test_select_user():
 
     # Add fake data into database
     for c in range(2):
-
+        print(c)
         # Intance fake data to insert before selecting
         user_id = faker.random_number(digits=5)
         user_name = faker.name()

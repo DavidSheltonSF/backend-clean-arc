@@ -17,6 +17,6 @@ class FindUser(ABC):
         raise NotImplementedError("Should implement method: by_name")
 
     @abstractmethod
-    def by_id_and_name(self, user_id: int, user_name: str) -> Dict[bool, List[Users]]:
+    def all(self) -> Dict[bool, List[Users]]:
         """Specific case"""
         raise NotImplementedError("Should implement method: by_id_name")

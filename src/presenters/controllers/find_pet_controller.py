@@ -46,6 +46,7 @@ class FindPetController(RouteInterface):
                     status_code=http_error["status_code"], body=http_error["body"]
                 )
 
-        response = self.find_pet_use_case.all()
+        else:
+            response = self.find_pet_use_case.all()
 
         return HttpResponse(status_code=200, body=response["Data"])

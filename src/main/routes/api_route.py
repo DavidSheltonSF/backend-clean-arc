@@ -95,12 +95,13 @@ def register_pet(token):
     )
 
 
-@api_routes_bp.route("/api/users", methods=["GET"])
+@api_routes_bp.route("/api/users/<int:user_id>", methods=["GET"])
 @cache.cached(make_cache_key=make_my_cache_key)
 @token_verify
-def find_user(token):
+def find_user_by_id(token, user_id):
     """Find user route"""
     message = {}
+    print(request.view_args)
 
     print("Esperando")
     response = flask_adapter(request=request, api_route=find_user_composer())

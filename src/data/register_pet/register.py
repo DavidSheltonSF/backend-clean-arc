@@ -20,7 +20,7 @@ class RegisterPet(RegisterPetInterface):
         self,
         pet_name: str,
         specie: str,
-        user_information: Dict[int, str],
+        user_id: int,
         age: int = None,
     ) -> Dict[bool, Pets]:
         """Register pet
@@ -29,7 +29,7 @@ class RegisterPet(RegisterPetInterface):
             pet_name (str): Pet's name
             specie (str): Pet's specie
             age (int): Pet's age
-            user_information (Dict[int, str]): Dictionary with
+            user_id (int): User's id
             user_id and/or name
 
         Returns:
@@ -42,10 +42,10 @@ class RegisterPet(RegisterPetInterface):
             isinstance(pet_name, str)
             and isinstance(specie, str)
             and (isinstance(age, int) or age is None)
-            and isinstance(user_information, dict)
+            and isinstance(user_id, int)
         )
-        # Try to find the user
-        user = self.__find_user_information(user_information)
+
+        user = self.__find_user_information(user_id)
 
         # Check validate_entry and user found
         checker = validate_entry and user["Success"]
@@ -57,9 +57,7 @@ class RegisterPet(RegisterPetInterface):
 
         return {"Success": checker, "Data": response}
 
-    def __find_user_information(
-        self, user_information: Dict[int, str]
-    ) -> Dict[bool, List[Users]]:
+    def __find_user_information(self, user_id: int) -> Dict[bool, List[Users]]:
         """Check user infos and select user
 
         Args:
@@ -71,23 +69,8 @@ class RegisterPet(RegisterPetInterface):
             of find_user use case
         """
 
-        user_founded = None
-        user_params = user_information.keys()
-
-        # Check if user_id  and user_name is in params
-        if "user_id" in user_params and "user_name" in user_params:
-            user_founded = self.find_user.by_id_and_name(
-                user_id=user_information["user_id"],
-                user_name=user_information["user_name"],
-            )
-
-        # Check if user_id is in params and user_name is not
-        elif "user_id" in user_params and "user_name" not in user_params:
-            user_founded = self.find_user.by_id(user_information["user_id"])
-
-        # Check if user_id is not in params and user_name is in
-        elif "user_id" not in user_params and "user_name" in user_params:
-            user_founded = self.find_user.by_name(user_information["user_name"])
+        if user_id:
+            user_founded = self.find_user.by_id(user_id)
 
         # In last case
         else:

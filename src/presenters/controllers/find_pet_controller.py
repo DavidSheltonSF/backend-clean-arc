@@ -16,39 +16,26 @@ class FindPetController(RouteInterface):
 
         response = None
 
-        # Check if there is a query in http_request
-        if http_request.query:
-            query_string_params = http_request.query.keys()
+        # Check if there is a view_arg in http_request
+        if http_request.view_arg:
+            view_arg = http_request.view_arg.keys()
 
-            # check if pet_id and user_id are in query_string_params
-            if "pet_id" in query_string_params and "user_id" in query_string_params:
+            # check if pet_id is in view_arg
+            if "pet_id" in view_arg:
 
-                pet_id = http_request.query["pet_id"]
-                user_id = http_request.query["user_id"]
+                pet_id = http_request.view_arg["pet_id"]
 
-                response = self.find_pet_use_case.by_pet_id_and_user_id(
-                    pet_id=pet_id, user_id=user_id
+                response = self.find_pet_use_case.by_pet_id(
+                    pet_id=pet_id,
                 )
 
-            # check if pet_id is in query_string_params and user_id is not
-            elif (
-                "pet_id" in query_string_params and "user_id" not in query_string_params
-            ):
+            # check if user_id is in view_arg
+            elif "user_id" in view_arg:
 
-                pet_id = http_request.query["pet_id"]
-
-                response = self.find_pet_use_case.by_pet_id(pet_id=pet_id)
-
-            # check if pet_id is not in query_string_params and user_id is in
-            elif (
-                "pet_id" not in query_string_params and "user_id" in query_string_params
-            ):
-
-                user_id = http_request.query["user_id"]
+                user_id = http_request.view_arg["user_id"]
 
                 response = self.find_pet_use_case.by_user_id(user_id=user_id)
 
-            # In last case
             else:
                 response = {"Success": False, "Data": None}
 
@@ -59,10 +46,6 @@ class FindPetController(RouteInterface):
                     status_code=http_error["status_code"], body=http_error["body"]
                 )
 
-            return HttpResponse(status_code=200, body=response["Data"])
+        response = self.find_pet_use_case.all()
 
-        # Bad request
-        http_error = HttpErrors.error_400()
-        return HttpResponse(
-            status_code=http_error["status_code"], body=http_error["body"]
-        )
+        return HttpResponse(status_code=200, body=response["Data"])

@@ -10,7 +10,6 @@ class FindUserSpy:
         self.user_repository = user_repository
         self.by_id_param = {}
         self.by_name_param = {}
-        self.by_id_and_name_param = {}
 
     def by_id(self, user_id: int) -> Dict[bool, List[Users]]:
         """Select User by id"""
@@ -37,16 +36,9 @@ class FindUserSpy:
 
         return {"Success": validate_entry, "Data": response}
 
-    def by_id_and_name(self, user_id: int, user_name: str) -> Dict[bool, List[Users]]:
-        """Select User by id and name"""
+    def all(self) -> Dict[bool, List[Users]]:
+        """Select all users"""
 
-        self.by_id_and_name_param["user_id"] = user_id
-        self.by_id_and_name_param["user_name"] = user_name
-        response = None
+        response = [mock_users()]
 
-        validate_entry = isinstance(user_id, int) and isinstance(user_name, str)
-
-        if validate_entry:
-            response = [mock_users()]
-
-        return {"Success": validate_entry, "Data": response}
+        return {"Success": True, "Data": response}

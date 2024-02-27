@@ -11,7 +11,7 @@ class RegisterPet(ABC):
         self,
         pet_name: str,
         specie: str,
-        user_information: Dict[int, str],
+        user_id: int,
         age: int = None,
     ) -> Dict[bool, Pets]:
         """Case"""

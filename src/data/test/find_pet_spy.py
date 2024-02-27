@@ -10,7 +10,6 @@ class FindPetSpy:
         self.user_repository = pet_repository
         self.by_pet_id_param = {}
         self.by_user_id_param = {}
-        self.by_pet_id_and_user_id_param = {}
 
     def by_pet_id(self, pet_id: int) -> Dict[bool, List[Pets]]:
         """Select Pet by pet_id"""
@@ -40,18 +39,9 @@ class FindPetSpy:
 
         return {"Success": validate_entry, "Data": response}
 
-    def by_pet_id_and_user_id(
-        self, pet_id: int, user_id: int
-    ) -> Dict[bool, List[Pets]]:
-        """Select User by id and name"""
+    def all(self) -> Dict[bool, List[Pets]]:
+        """Select all pets"""
 
-        self.by_pet_id_and_user_id_param["pet_id"] = pet_id
-        self.by_pet_id_and_user_id_param["user_id"] = user_id
-        response = None
+        response = [mock_pets()]
 
-        validate_entry = isinstance(pet_id, int) and isinstance(user_id, int)
-
-        if validate_entry:
-            response = [mock_pets()]
-
-        return {"Success": validate_entry, "Data": response}
+        return {"Success": True, "Data": response}

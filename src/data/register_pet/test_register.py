@@ -20,17 +20,14 @@ def test_register():
         "pet_name": faker.name(),
         "specie": faker.random_element(list(AnimalTypes)).name,
         "age": faker.random_number(digits=2),
-        "user_information": {
-            "user_id": faker.random_number(digits=5),
-            "user_name": faker.name(),
-        },
+        "user_id": faker.random_number(digits=5),
     }
 
     # Insert fake data
     response = register_pet.register(
         attributes["pet_name"],
         attributes["specie"],
-        attributes["user_information"],
+        attributes["user_id"],
         attributes["age"],
     )
 
@@ -40,14 +37,7 @@ def test_register():
     assert pet_repo.insert_pet_params["age"] == attributes["age"]
 
     # Testing FindUser Inputs
-    assert (
-        find_user.by_id_and_name_param["user_id"]
-        == attributes["user_information"]["user_id"]
-    )
-    assert (
-        find_user.by_id_and_name_param["user_name"]
-        == attributes["user_information"]["user_name"]
-    )
+    assert find_user.by_id_param["user_id"] == attributes["user_id"]
 
     # testing outputs
     assert response["Success"] is True

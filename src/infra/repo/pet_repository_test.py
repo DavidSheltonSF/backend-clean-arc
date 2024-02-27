@@ -98,13 +98,30 @@ def test_select_pet():
     # Do 3 query selections to test
     query_pet1 = pet_repository.select_pet(pet_id=pet_id)
     query_pet2 = pet_repository.select_pet(user_id=user_id)
-    query_pet3 = pet_repository.select_pet(pet_id=pet_id, user_id=user_id)
+    query_pet3 = pet_repository.select_pet()  # Return -> List[User]
 
     # Check if Pet data inserted
     # is in the data obtained in the queries
     assert data in query_pet1
     assert data in query_pet2
-    assert data in query_pet3
+
+    # Select all pets by engine
+    with engine.connect() as conn:
+        # Return -> sqlalchemy row sequence
+        query_rows = conn.execute(
+            text(
+                """
+                    SELECT * FROM pets
+                """
+            )
+        ).fetchall()
+        conn.commit()
+
+    # Convert rows from database into User instances
+    query_full_data = [PetsModel.row_to_pet(row) for row in query_rows]
+
+    # Check if selection by engine is equal selection by repository
+    assert all(qfull == q3 for qfull, q3 in zip(query_full_data, query_pet3))
 
     if pet_id:
         # Delete the fake pet from database

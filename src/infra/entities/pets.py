@@ -35,14 +35,14 @@ class Pets(Base):
     )
 
     @classmethod
-    def row_to_user(cls, row):
-        """Convert a row into User a instance"""
+    def row_to_pet(cls, row):
+        """Convert a row into Pet a instance"""
         # Maybe it's necessary an error handling
 
         return Pets(
             id=row.id,
             name=row.name,
-            specie=row.specie,
+            specie=AnimalTypes(row.specie.lower()),
             age=row.age,
             user_id=row.user_id,
         )

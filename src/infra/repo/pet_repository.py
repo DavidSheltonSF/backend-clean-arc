@@ -84,18 +84,12 @@ class PetRepository(PetRepositoryInterface):
                     )
                     query_data = data
 
-                # Check if has pet_id and name
-                elif pet_id and user_id:
+                # Check if has not pet_id or name
+                elif not pet_id and not user_id:
 
-                    # Open database connection,
                     # select user by pet_id and by user_id, and get one
-                    with DBConnectionHandler() as db_connection:
-                        data = (
-                            db_connection.session.query(PetsModel)
-                            .filter_by(id=pet_id, user_id=user_id)
-                            .one()
-                        )
-                        query_data = [data]
+                    data = db_connection.session.query(PetsModel).all()
+                    query_data = data
 
                 return query_data
 

@@ -34,6 +34,19 @@ class Pets(Base):
         Integer, ForeignKey("users.id", ondelete="CASCADE", onupdate="CASCADE")
     )
 
+    @classmethod
+    def row_to_user(cls, row):
+        """Convert a row into User a instance"""
+        # Maybe it's necessary an error handling
+
+        return Pets(
+            id=row.id,
+            name=row.name,
+            specie=row.specie,
+            age=row.age,
+            user_id=row.user_id,
+        )
+
     def __repr__(self):
         """Represents the instance of this class by a string
 

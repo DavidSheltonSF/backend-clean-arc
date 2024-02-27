@@ -60,14 +60,12 @@ class PetRepository(PetRepositoryInterface):
 
         # Try select pets in database
         try:
+            with DBConnectionHandler() as db_connection:
+                query_data = None
+                # Check if has pet_id but has not user_id
+                if pet_id and not user_id:
 
-            query_data = None
-            # Check if has pet_id but has not user_id
-            if pet_id and not user_id:
-
-                # Open database connection,
-                # select user by pet_id and get one
-                with DBConnectionHandler() as db_connection:
+                    # select user by pet_id and get one
                     data = (
                         db_connection.session.query(PetsModel)
                         .filter_by(id=pet_id)
@@ -75,12 +73,10 @@ class PetRepository(PetRepositoryInterface):
                     )
                     query_data = [data]
 
-            # Check if has not pet_id but has user_id
-            elif not pet_id and user_id:
+                # Check if has not pet_id but has user_id
+                elif not pet_id and user_id:
 
-                # Open database connection,
-                # select pet by user_id and get one
-                with DBConnectionHandler() as db_connection:
+                    # select pet by user_id and get one
                     data = (
                         db_connection.session.query(PetsModel)
                         .filter_by(user_id=user_id)
@@ -88,20 +84,20 @@ class PetRepository(PetRepositoryInterface):
                     )
                     query_data = data
 
-            # Check if has pet_id and name
-            elif pet_id and user_id:
+                # Check if has pet_id and name
+                elif pet_id and user_id:
 
-                # Open database connection,
-                # select user by pet_id and by user_id, and get one
-                with DBConnectionHandler() as db_connection:
-                    data = (
-                        db_connection.session.query(PetsModel)
-                        .filter_by(id=pet_id, user_id=user_id)
-                        .one()
-                    )
-                    query_data = [data]
+                    # Open database connection,
+                    # select user by pet_id and by user_id, and get one
+                    with DBConnectionHandler() as db_connection:
+                        data = (
+                            db_connection.session.query(PetsModel)
+                            .filter_by(id=pet_id, user_id=user_id)
+                            .one()
+                        )
+                        query_data = [data]
 
-            return query_data
+                return query_data
 
         # If no pet was founded
         except NoResultFound:
@@ -115,7 +111,9 @@ class PetRepository(PetRepositoryInterface):
             db_connection.session.close()
 
     @classmethod
-    def update_pet(cls, pet_id: int, pet_name: str, specie: str, age: int) -> Pets:
+    def update_pet(
+        cls, pet_id: int, pet_name: str, specie: str, age: int, user_id: int
+    ) -> Pets:
         """Update data in pet entity
 
         Args:

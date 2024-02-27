@@ -164,7 +164,7 @@ def test_update_pet():
 
     # Do query uptate to test
     updated_data = pet_repository.update_pet(
-        pet_id=pet_id, pet_name=pet_name, specie=specie, age=age, user_id=user_id
+        pet_id=pet_id, pet_name=pet_name, specie=specie, age=age
     )
 
     # Select data by pet_id
@@ -190,14 +190,13 @@ def test_update_pet_no_result_found():
     pet_name = faker.name()
     specie = faker.random_element(list(AnimalTypes)).name
     age = faker.random_number(digits=2)
-    user_id = faker.random_number(digits=5)
 
     # Get the database engine
     engine = db_connection_handler.get_engine()
 
     # Do query uptate to test
     updated_data = pet_repository.update_pet(
-        pet_id=pet_id, pet_name=pet_name, specie=specie, age=age, user_id=user_id
+        pet_id=pet_id, pet_name=pet_name, specie=specie, age=age
     )
 
     # Check if updated data is empty

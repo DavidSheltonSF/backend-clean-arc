@@ -21,37 +21,27 @@ class RegisterPetController(RouteInterface):
 
             body_params = http_request.body.keys()
 
+            required_params = ["pet_name", "specie", "user_id"]
+            checker = all(item in body_params for item in required_params)
+
             # Check if required pet attributes are in body_params
-            if (
-                "pet_name" in body_params
-                and "specie" in body_params
-                and "user_information" in body_params
-            ):
-                user_information_params = http_request.body["user_information"].keys()
+            if checker:
 
-                # Check if required user attributes are in body_params
-                if (
-                    "user_id" in user_information_params
-                    or "user_name" in user_information_params
-                ):
+                pet_name = http_request.body["pet_name"]
+                specie = http_request.body["specie"]
+                user_id = http_request.body["user_id"]
 
-                    pet_name = http_request.body["pet_name"]
-                    specie = http_request.body["specie"]
-                    user_information = http_request.body["user_information"]
-
-                    if "age" in body_params:
-                        age = http_request.body["age"]
-                    else:
-                        age = None
-
-                    response = self.register_pet_use_case.register(
-                        pet_name=pet_name,
-                        specie=specie,
-                        user_information=user_information,
-                        age=age,
-                    )
+                if "age" in body_params:
+                    age = http_request.body["age"]
                 else:
-                    response = {"Success": False, "Data": None}
+                    age = None
+
+                response = self.register_pet_use_case.register(
+                    pet_name=pet_name,
+                    specie=specie,
+                    user_id=user_id,
+                    age=age,
+                )
 
             else:
                 response = {"Success": False, "Data": None}

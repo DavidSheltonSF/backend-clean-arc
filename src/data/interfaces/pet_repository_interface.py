@@ -21,7 +21,7 @@ class PetRepositoryInterface(ABC):
     @classmethod
     @abstractmethod
     def update_pet(
-        cls, pet_id: int, pet_name: str, specie: str, age: int, user_id: int
+        cls, pet_id: int, pet_name: str, specie: str, age: int
     ) -> List[Pets]:
         """Abstract method"""
         raise NotImplementedError("Should implement method: update_pet")

@@ -20,13 +20,13 @@ class AlterUserController(RouteInterface):
         if http_request.body:
             body_params = http_request.body.keys()
 
-            required_params = ["user_id", "user_name", "password"]
+            required_params = ["user_name", "password"]
             checker = all(item in body_params for item in required_params)
 
             # check if user_id and user_id are in body_params
             if checker:
 
-                user_id = http_request.body["user_id"]
+                user_id = http_request.view_arg["user_id"]
                 user_name = http_request.body["user_name"]
                 password = http_request.body["password"]
 

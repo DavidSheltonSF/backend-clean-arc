@@ -15,18 +15,17 @@ class AlterPetController(RouteInterface):
         """Method to call use case"""
 
         response = None
-        print(http_request.body)
         # Check if there is a body in http_request
         if http_request.body:
             body_params = http_request.body.keys()
 
-            required_params = ["pet_id", "pet_name", "specie", "age"]
+            required_params = ["pet_name", "specie", "age"]
             checker = all(item in body_params for item in required_params)
 
             # check if pet_id and user_id are in body_params
             if checker:
 
-                pet_id = http_request.body["pet_id"]
+                pet_id = http_request.view_arg["pet_id"]
                 pet_name = http_request.body["pet_name"]
                 specie = http_request.body["specie"]
                 age = http_request.body["age"]

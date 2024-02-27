@@ -17,10 +17,7 @@ def test_route():
     attributes = {
         "pet_name": faker.name(),
         "specie": faker.random_element(list(AnimalTypes)).name,
-        "user_information": {
-            "user_id": faker.random_number(digits=5),
-            "user_name": faker.name(),
-        },
+        "user_id": faker.random_number(digits=5),
         "age": faker.random_number(digits=2),
     }
 
@@ -29,11 +26,8 @@ def test_route():
     # Testing inputs
     assert register_pet_use_case.register_param["pet_name"] == attributes["pet_name"]
     assert register_pet_use_case.register_param["specie"] == attributes["specie"]
-    assert (
-        register_pet_use_case.register_param["user_information"]
-        == attributes["user_information"]
-    )
     assert register_pet_use_case.register_param["age"] == attributes["age"]
+    assert register_pet_use_case.register_param["user_id"] == attributes["user_id"]
 
     # Testing outputs
     assert response.status_code == 200

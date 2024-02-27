@@ -8,7 +8,7 @@ from src.main.composer import alter_pet_composer
 from src.main.composer import remove_user_composer
 from src.main.composer import remove_pet_composer
 from src.main.adapter import flask_adapter
-from src.main.auth_jwt import token_creator, token_verify
+from src.main.auth_jwt import token_creator  # , token_verify
 from src.main.caching import cache, make_my_cache_key
 
 api_routes_bp = Blueprint("api_routes", __name__)
@@ -41,7 +41,7 @@ def authentification():
 
 
 @api_routes_bp.route("/api/users", methods=["POST"])
-# @token_verify
+# #token_verify
 def register_user():
     """Register user route"""
     message = {}
@@ -66,8 +66,8 @@ def register_user():
 
 
 @api_routes_bp.route("/api/pets", methods=["POST"])
-@token_verify
-def register_pet(token):
+# token_verify
+def register_pet():
     """Register pet route"""
     message = {}
     response = flask_adapter(request=request, api_route=register_pet_composer())
@@ -95,10 +95,40 @@ def register_pet(token):
     )
 
 
+@api_routes_bp.route("/api/users/", methods=["GET"])
+@cache.cached(make_cache_key=make_my_cache_key)
+# token_verify
+def find_user_all():
+    """Find user route"""
+    message = {}
+
+    response = flask_adapter(request=request, api_route=find_user_composer())
+
+    # Check that an error has not occurred
+    if response.status_code < 300:
+        message = []
+
+        for element in response.body:
+            message.append(
+                {
+                    "type": "user",
+                    "id": element.id,
+                    "attributes": {"user_name": element.name},
+                }
+            )
+
+        return jsonify({"data": message}), response.status_code
+
+    # Handling Erros
+    return jsonify(
+        {"error": {"status": response.status_code, "title": response.body["error"]}}
+    )
+
+
 @api_routes_bp.route("/api/users/<int:user_id>", methods=["GET"])
 @cache.cached(make_cache_key=make_my_cache_key)
-@token_verify
-def find_user_by_id(token, user_id):
+# token_verify
+def find_user_by_id(user_id):
     """Find user route"""
     message = {}
     print(request.view_args)
@@ -127,10 +157,10 @@ def find_user_by_id(token, user_id):
     )
 
 
-@api_routes_bp.route("/api/pets", methods=["GET"])
+@api_routes_bp.route("/api/pets/", methods=["GET"])
 @cache.cached(make_cache_key=make_my_cache_key)
-@token_verify
-def find_pet(token):
+# #token_verify
+def find_pet_all():
     """Find pet route"""
     message = {}
 
@@ -159,9 +189,41 @@ def find_pet(token):
     )
 
 
-@api_routes_bp.route("/api/users", methods=["PUT"])
-@token_verify
-def alter_user(token):
+@api_routes_bp.route("/api/pets/<int:pet_id>", methods=["GET"])
+@cache.cached(make_cache_key=make_my_cache_key)
+# #token_verify
+def find_pet_by_id(pet_id):
+    """Find pet route"""
+    message = {}
+
+    print("Esperando...")
+    response = flask_adapter(request=request, api_route=find_pet_composer())
+
+    # Check that an error has not occurred
+    if response.status_code < 300:
+        message = []
+
+        for element in response.body:
+            message.append(
+                {
+                    "type": "pet",
+                    "id": element.id,
+                    "attributes": {"pet_name": element.name, "age": element.age},
+                    "relationships": {"user_id": element.user_id},
+                }
+            )
+
+        return jsonify({"data": message}), response.status_code
+
+    # Handling Erros
+    return jsonify(
+        {"error": {"status": response.status_code, "title": response.body["error"]}}
+    )
+
+
+@api_routes_bp.route("/api/users/<int:user_id>", methods=["PUT"])
+# token_verify
+def alter_user(user_id):
     """Find user route"""
     message = {}
     response = flask_adapter(request=request, api_route=alter_user_composer())
@@ -185,9 +247,9 @@ def alter_user(token):
     )
 
 
-@api_routes_bp.route("/api/pets", methods=["PUT"])
-@token_verify
-def alter_pet(token):
+@api_routes_bp.route("/api/pets/<int:pet_id>", methods=["PUT"])
+# token_verify
+def alter_pet(pet_id):
     """Find pet route"""
     message = {}
     response = flask_adapter(request=request, api_route=alter_pet_composer())
@@ -217,7 +279,7 @@ def alter_pet(token):
 
 
 @api_routes_bp.route("/api/users", methods=["DELETE"])
-@token_verify
+# token_verify
 def remove_user(tonken):
     """Remove user route"""
     message = {}
@@ -243,8 +305,8 @@ def remove_user(tonken):
 
 
 @api_routes_bp.route("/api/pets", methods=["DELETE"])
-@token_verify
-def remove_pet(token):
+# token_verify
+def remove_pet():
     """Find pet route"""
     message = {}
     response = flask_adapter(request=request, api_route=remove_pet_composer())

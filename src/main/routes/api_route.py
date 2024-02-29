@@ -108,6 +108,12 @@ def find_user_all():
     if response.status_code < 300:
         message = []
 
+        page = int(request.args.get("page", 1))
+        per_page = int(request.args.get("per_page", 3))
+
+        start_index = (page - 1) * per_page
+        end_index = start_index + per_page
+
         for element in response.body:
             message.append(
                 {
@@ -117,7 +123,9 @@ def find_user_all():
                 }
             )
 
-        return jsonify({"data": message}), response.status_code
+        pagined_users = message[start_index:end_index]
+
+        return jsonify({"data": pagined_users}), response.status_code
 
     # Handling Erros
     return jsonify(

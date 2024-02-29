@@ -40,6 +40,50 @@ Aprendi que esse tipo de arquitetura possui alguns benefícios:
 
 ### *api/users*
 
+**GET:**
+
+*api/users/*
+
+SUCESSO:
+```
+{
+  "data": [
+    {
+      "attributes": {
+        "user_name": "Marcos Pietro"
+      },
+      "id": 1,
+      "type": "user"
+    },
+    {
+      "attributes": {
+        "user_name": "Antônio Carlos"
+      },
+      "id": 2,
+      "type": "user"
+    }
+  ]
+}
+```
+
+
+*api/users/<int:user_id>*
+
+SUCESSO:
+```
+{
+  "data": [
+    {
+      "attributes": {
+        "user_name": "Marcos Pietro"
+      },
+      "id": 1,
+      "type": "user"
+    }
+  ]
+}
+```
+
 **POST:**
 
 Corpo da Requisição:
@@ -65,6 +109,8 @@ SUCESSO:
 
 **PUT:**
 
+*api/users/<int:user_id>*
+
 Corpo da Requisição:
 ```
 {   
@@ -77,23 +123,28 @@ Corpo da Requisição:
 SUCESSO:
 ```
 {
-  "data": {
-    "Type": "users",
-    "attributes": {
-      "user_name": "Marcos Pietro"
-    },
-    "id": 1
-  }
+  "Success":  True
+  "Message": "User updated succesfully"
 }
 ```
 
+**DELETE:**
+
+*api/users/<int:user_id>*
+
+SUCESSO:
+```
+{
+  "Success": True,
+  "Message": "User deleted successfully
+}
+```
+
+### *api/pets*
+
 **GET:**
 
-Query params:
-```
-user_id: 1
-user_name: "Marcos Pietro
-```
+*api/pets/*
 
 SUCESSO:
 ```
@@ -101,38 +152,50 @@ SUCESSO:
   "data": [
     {
       "attributes": {
-        "user_name": "Marcos Pietro"
+        "age": 5,
+        "pet_name": "Duque II"
       },
       "id": 1,
-      "type": "user"
+      "relationships": {
+        "user_id": 1
+      },
+      "type": "pet"
+    },
+    {
+      "attributes": {
+        "age": 3,
+        "pet_name": "Mel"
+      },
+      "id": 2,
+      "relationships": {
+        "user_id": 1
+      },
+      "type": "pet"
     }
   ]
 }
 ```
 
-**DELETE:**
-
-Corpo da Requisição:
-```
-{   
-    "user_id": 1,
-}
-```
+*api/pets/<int:pet_id>*
 
 SUCESSO:
 ```
 {
-  "data": {
-    "attributes": {
-      "user_name": "Marcos Pietro"
+  "data": [
+    {
+      "attributes": {
+        "age": 5,
+        "pet_name": "Duque II"
+      },
+      "id": 1,
+      "relationships": {
+        "user_id": 1
+      },
+      "type": "pet"
     },
-    "id": 1,
-    "type": "user"
-  }
+  ]
 }
 ```
-
-### *api/pets*
 
 **POST:**
 
@@ -171,10 +234,11 @@ SUCESSO:
 
 **PUT:**
 
+*api/pets/<int:pet_id>*
+
 Corpo da Requisição:
 ```
 {
-    "pet_id": 1,
     "pet_name": "Duque II",
     "specie": "DOG",
     "age":5,
@@ -187,84 +251,20 @@ Corpo da Requisição:
 SUCESSO:
 ```
 {
-  "data": {
-    "attributes": {
-      "age": 5,
-      "pet_name": "Duque II",
-      "specie": "DOG"
-    },
-    "id": 1,
-    "relationships": {
-      "user_id": 1
-    },
-    "type": "pet"
-  }
-}
-```
-
-**GET:**
-
-Query params:
-```
-user_id: 1
-```
-
-*Também é possível procurar por pet_id ou pet_id e user_id*
-
-SUCESSO:
-```
-{
-  "data": [
-    {
-      "attributes": {
-        "age": 5,
-        "pet_name": "Duque II"
-      },
-      "id": 1,
-      "relationships": {
-        "user_id": 1
-      },
-      "type": "pet"
-    },
-    {
-      "attributes": {
-        "age": 3,
-        "pet_name": "Mel"
-      },
-      "id": 2,
-      "relationships": {
-        "user_id": 1
-      },
-      "type": "pet"
-    }
-  ]
+  "Success": True,
+  "Message": "Pet updated sucessfully"
 }
 ```
 
 **DELETE:**
 
-Corpo da Requisição:
-```
-{   
-    "pet_id": 2,
-}
-```
+*api/pets/<int:pet_id>*
 
 SUCESSO:
 ```
 {
-  "data": {
-    "attributes": {
-      "age": 3,
-      "pet_name": "Mel",
-      "specie": "CAT"
-    },
-    "id": 2,
-    "relationships": {
-      "user_id": 1
-    },
-    "type": "pet"
-  }
+  "Success": True,
+  "Message": "Pet deleted sucessfully"
 }
 ```
 

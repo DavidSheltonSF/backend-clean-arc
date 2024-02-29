@@ -13,11 +13,11 @@ def test_route():
     remove_user_use_case = RemoveUserSpy(UserRepositorySpy())
     remove_user_router = RemoveUserController(remove_user_use_case)
 
-    attributes = {"user_id": faker.random_number(digits=2)}
-    response = remove_user_router.route(HttpRequest(body=attributes))
+    view_arg = {"user_id": faker.random_number(digits=2)}
+    response = remove_user_router.route(HttpRequest(view_arg=view_arg))
 
     # Testing inputs
-    assert remove_user_use_case.remove_param["user_id"] == attributes["user_id"]
+    assert remove_user_use_case.remove_param["user_id"] == view_arg["user_id"]
 
     # Testing outputs
     assert response.status_code == 200

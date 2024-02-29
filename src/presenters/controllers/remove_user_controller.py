@@ -16,32 +16,15 @@ class RemoveUserController(RouteInterface):
 
         response = None
 
-        # Check if there is a body in http_request
-        if http_request.body:
-            body_params = http_request.body.keys()
+        user_id = http_request.view_arg["user_id"]
 
-            # check if user_id and user_id are in body_params
-            if "user_id" in body_params:
+        response = self.remove_user_use_case.remove(user_id=user_id)
 
-                user_id = http_request.body["user_id"]
+        # If request failed, Unprocessable Entity
+        if response["Success"] is False:
+            http_error = HttpErrors.error_422()
+            return HttpResponse(
+                status_code=http_error["status_code"], body=http_error["body"]
+            )
 
-                response = self.remove_user_use_case.remove(user_id=user_id)
-
-            # In last case
-            else:
-                response = {"Success": False, "Data": None}
-
-            # If request failed, Unprocessable Entity
-            if response["Success"] is False:
-                http_error = HttpErrors.error_422()
-                return HttpResponse(
-                    status_code=http_error["status_code"], body=http_error["body"]
-                )
-
-            return HttpResponse(status_code=200, body=response["Data"])
-
-        # Bad request
-        http_error = HttpErrors.error_400()
-        return HttpResponse(
-            status_code=http_error["status_code"], body=http_error["body"]
-        )
+        return HttpResponse(status_code=200, body=response["Data"])

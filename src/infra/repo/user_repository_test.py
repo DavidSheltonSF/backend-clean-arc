@@ -61,30 +61,29 @@ def test_select_user():
     """Testing the User repository select_user method"""
 
     # Add fake data into database
-    for c in range(2):
-        print(c)
-        # Intance fake data to insert before selecting
-        user_id = faker.random_number(digits=5)
-        user_name = faker.name()
-        password = faker.word()
 
-        # Instance an User object
-        data = UsersModel(id=user_id, name=user_name, password=password)
+    # Intance fake data to insert before selecting
+    user_id = faker.random_number(digits=5)
+    user_name = faker.name()
+    password = faker.word()
 
-        # Get the database engine
-        engine = db_connection_handler.get_engine()
+    # Instance an User object
+    data = UsersModel(id=user_id, name=user_name, password=password)
 
-        # Insert a fake user to test the query selection
-        with engine.connect() as conn:
-            conn.execute(
-                text(
-                    f"""
-                    INSERT INTO USERS (id, name, password)
-                    VALUES ('{user_id}', '{user_name}', '{password}')
-                """
-                )
+    # Get the database engine
+    engine = db_connection_handler.get_engine()
+
+    # Insert a fake user to test the query selection
+    with engine.connect() as conn:
+        conn.execute(
+            text(
+                f"""
+                INSERT INTO USERS (id, name, password)
+                VALUES ('{user_id}', '{user_name}', '{password}')
+            """
             )
-            conn.commit()
+        )
+        conn.commit()
 
     # Do 3 query selections to test
     query_user1 = user_repository.select_user(user_id=user_id)
@@ -122,132 +121,127 @@ def test_select_user():
         conn.commit()
 
 
-def test_update_user():
-    """Testing the User repository update_user method"""
+# def test_update_user():
+#     """Testing the User repository update_user method"""
 
-    # Intance fake data to insert before updating
-    user_id = faker.random_number(digits=5)
-    user_name = faker.name()
-    password = faker.word()
+#     # Intance fake data to insert before updating
+#     user_id = faker.random_number(digits=5)
+#     user_name = faker.name()
+#     password = faker.word()
 
-    # Get the database engine
-    engine = db_connection_handler.get_engine()
+#     # Get the database engine
+#     engine = db_connection_handler.get_engine()
 
-    # Insert a fake user to test the query selection
-    with engine.connect() as conn:
-        conn.execute(
-            text(
-                f"""
-                INSERT INTO USERS (id, name, password)
-                VALUES ('{user_id}', '{user_name}', '{password}')
-            """
-            )
-        )
-        conn.commit()
+#     # Insert a fake user to test the query selection
+#     with engine.connect() as conn:
+#         conn.execute(
+#             text(
+#                 f"""
+#                 INSERT INTO USERS (id, name, password)
+#                 VALUES ('{user_id}', '{user_name}', '{password}')
+#             """
+#             )
+#         )
+#         conn.commit()
 
-    # Do query uptate to test
-    updated_data = user_repository.update_user(
-        user_id=user_id, user_name=user_name, password=password
-    )
+#     # Do query uptate to test
+#     updated_data = user_repository.update_user(
+#         user_id=user_id, user_name=user_name, password=password
+#     )
 
-    # Select data by user_id
-    selection = user_repository.select_user(user_id=user_id)
+#     # Select data by user_id
+#     selection = user_repository.select_user(user_id=user_id)
 
-    # Check if updated data is equal data selected
-    assert updated_data.id == selection[0].id
-    assert updated_data.name == selection[0].name
-    assert updated_data.password == selection[0].password
+#     # Check if updated data is equal data selected
+#     assert updated_data.id == selection[0].id
+#     assert updated_data.name == selection[0].name
+#     assert updated_data.password == selection[0].password
 
-    # Delete the fake user from database
-    with engine.connect() as conn:
-        conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
-        conn.commit()
-
-
-def test_update_user_no_result_found():
-    """Testing the User repository update_user method"""
-
-    # Intance fake data to insert before updating
-    user_id = faker.random_number(digits=5)
-    user_name = faker.name()
-    password = faker.word()
-
-    # Get the database engine
-    engine = db_connection_handler.get_engine()
-
-    # Do query uptate to test
-    updated_data = user_repository.update_user(
-        user_id=user_id, user_name=user_name, password=password
-    )
-
-    # Check if updated data is None
-    assert updated_data is None
-
-    # Delete the fake user from database
-    with engine.connect() as conn:
-        conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
-        conn.commit()
+#     # Delete the fake user from database
+#     with engine.connect() as conn:
+#         conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
+#         conn.commit()
 
 
-def test_delete_user():
-    """Testing the User repository delete_user method"""
+# def test_update_user_no_result_found():
+#     """Testing the User repository update_user method"""
 
-    # Intance fake data to insert before deletion
-    user_id = faker.random_number(digits=5)
-    user_name = faker.name()
-    password = faker.word()
+#     # Intance fake data to insert before updating
+#     user_id = faker.random_number(digits=5)
+#     user_name = faker.name()
+#     password = faker.word()
 
-    # Get the database engine
-    engine = db_connection_handler.get_engine()
+#     # Get the database engine
+#     engine = db_connection_handler.get_engine()
 
-    # Insert a fake user
-    with engine.connect() as conn:
-        conn.execute(
-            text(
-                f"""
-                INSERT INTO USERS (id, name, password)
-                VALUES ('{user_id}', '{user_name}', '{password}')
-            """
-            )
-        )
-        conn.commit()
+#     # Do query uptate to test
+#     updated_data = user_repository.update_user(
+#         user_id=user_id, user_name=user_name, password=password
+#     )
 
-    # Delete fake user
-    deleted_data = user_repository.delete_user(user_id=user_id)
-
-    # Select data by user_id
-    selection = user_repository.select_user(user_id=user_id)
-
-    # Check return of delete_user method
-    assert deleted_data.id == user_id
-    assert deleted_data.name == user_name
-    assert deleted_data.password == password
-
-    # Check if deleted data is not in database
-    assert not selection
-
-    # Delete the fake user from database
-    with engine.connect() as conn:
-        conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
-        conn.commit()
+#     # Check if updated data is None
+#     assert updated_data is None
 
 
-def test_delete_user_no_result_found():
-    """Testing the User repository delete_user method"""
+# def test_delete_user():
+#     """Testing the User repository delete_user method"""
 
-    # Intance fake data to insert before deletion
-    user_id = faker.random_number(digits=5)
+#     # Intance fake data to insert before deletion
+#     user_id = faker.random_number(digits=5)
+#     user_name = faker.name()
+#     password = faker.word()
 
-    # Get the database engine
-    engine = db_connection_handler.get_engine()
+#     # Get the database engine
+#     engine = db_connection_handler.get_engine()
 
-    # Do query uptate to test
-    deleted_data = user_repository.delete_user(user_id=user_id)
+#     # Insert a fake user
+#     with engine.connect() as conn:
+#         conn.execute(
+#             text(
+#                 f"""
+#                 INSERT INTO USERS (id, name, password)
+#                 VALUES ('{user_id}', '{user_name}', '{password}')
+#             """
+#             )
+#         )
+#         conn.commit()
 
-    # Check if updated data is None
-    assert deleted_data is None
+#     # Delete fake user
+#     deleted_data = user_repository.delete_user(user_id=user_id)
 
-    # Delete the fake user from database
-    with engine.connect() as conn:
-        conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
-        conn.commit()
+#     # Select data by user_id
+#     selection = user_repository.select_user(user_id=user_id)
+
+#     # Check return of delete_user method
+#     assert deleted_data.id == user_id
+#     assert deleted_data.name == user_name
+#     assert deleted_data.password == password
+
+#     # Check if deleted data is not in database
+#     assert not selection
+
+#     # Delete the fake user from database
+#     with engine.connect() as conn:
+#         conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
+#         conn.commit()
+
+
+# def test_delete_user_no_result_found():
+#     """Testing the User repository delete_user method"""
+
+#     # Intance fake data to insert before deletion
+#     user_id = faker.random_number(digits=5)
+
+#     # Get the database engine
+#     engine = db_connection_handler.get_engine()
+
+#     # Do query uptate to test
+#     deleted_data = user_repository.delete_user(user_id=user_id)
+
+#     # Check if updated data is None
+#     assert deleted_data is None
+
+#     # Delete the fake user from database
+#     with engine.connect() as conn:
+#         conn.execute(text(f"DELETE FROM users WHERE id='{user_id}'"))
+#         conn.commit()

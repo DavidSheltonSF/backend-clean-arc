@@ -233,11 +233,7 @@ def alter_user(user_id):
 
         if response.body:
 
-            message = {
-                "type": "user",
-                "id": response.body.id,
-                "attributes": {"user_name": response.body.name},
-            }
+            message = {"Success": True, "Message": "User updated succesfuly"}
 
         return jsonify({"data": message}), response.status_code
 
@@ -259,16 +255,7 @@ def alter_pet(pet_id):
 
         if response.body:
 
-            message = {
-                "type": "pet",
-                "id": response.body.id,
-                "attributes": {
-                    "pet_name": response.body.name,
-                    "specie": response.body.specie,
-                    "age": response.body.age,
-                },
-                "relationships": {"user_id": response.body.user_id},
-            }
+            message = {"Success": True, "Message": "Pet updated succesfuly"}
 
         return jsonify({"data": message}), response.status_code
 
@@ -278,9 +265,9 @@ def alter_pet(pet_id):
     )
 
 
-@api_routes_bp.route("/api/users", methods=["DELETE"])
+@api_routes_bp.route("/api/users/<int:user_id>", methods=["DELETE"])
 # token_verify
-def remove_user(tonken):
+def remove_user(user_id):
     """Remove user route"""
     message = {}
     response = flask_adapter(request=request, api_route=remove_user_composer())
@@ -290,13 +277,9 @@ def remove_user(tonken):
 
         if response.body:
 
-            message = {
-                "type": "user",
-                "id": response.body.id,
-                "attributes": {"user_name": response.body.name},
-            }
+            message = {"Success": True, "Message": "User removed succesfuly"}
 
-        return jsonify({"data": message}), response.status_code
+        return jsonify(message), response.status_code
 
     # Handling Erros
     return jsonify(
@@ -304,9 +287,9 @@ def remove_user(tonken):
     )
 
 
-@api_routes_bp.route("/api/pets", methods=["DELETE"])
+@api_routes_bp.route("/api/pets/<int:pet_id>", methods=["DELETE"])
 # token_verify
-def remove_pet():
+def remove_pet(pet_id):
     """Find pet route"""
     message = {}
     response = flask_adapter(request=request, api_route=remove_pet_composer())
@@ -316,16 +299,7 @@ def remove_pet():
 
         if response.body:
 
-            message = {
-                "type": "pet",
-                "id": response.body.id,
-                "attributes": {
-                    "pet_name": response.body.name,
-                    "specie": response.body.specie,
-                    "age": response.body.age,
-                },
-                "relationships": {"user_id": response.body.user_id},
-            }
+            message = {"Success": True, "Message": "Pet removed succesfuly"}
 
         return jsonify({"data": message}), response.status_code
 

@@ -40,7 +40,7 @@ def flask_adapter(request: any, api_route: Type[Route]) -> any:
     http_request = HttpRequest(
         header=request.headers,
         body=request.get_json(silent=True),
-        view_arg=view_args,
+        view_args=view_args,
     )
 
     # Try do a request to route

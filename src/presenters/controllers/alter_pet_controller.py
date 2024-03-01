@@ -25,7 +25,7 @@ class AlterPetController(RouteInterface):
             # check if pet_id and user_id are in body_params
             if checker:
 
-                pet_id = http_request.view_arg["pet_id"]
+                pet_id = http_request.view_args["pet_id"]
                 pet_name = http_request.body["pet_name"]
                 specie = http_request.body["specie"]
                 age = http_request.body["age"]

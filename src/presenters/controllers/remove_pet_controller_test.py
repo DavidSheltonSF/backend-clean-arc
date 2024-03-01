@@ -13,11 +13,11 @@ def test_route():
     remove_pet_use_case = RemovePetSpy(PetRepositorySpy())
     remove_pet_router = RemovePetController(remove_pet_use_case)
 
-    view_arg = {"pet_id": faker.random_number(digits=2)}
-    response = remove_pet_router.route(HttpRequest(view_arg=view_arg))
+    view_args = {"pet_id": faker.random_number(digits=2)}
+    response = remove_pet_router.route(HttpRequest(view_args=view_args))
 
     # Testing inputs
-    assert remove_pet_use_case.remove_param["pet_id"] == view_arg["pet_id"]
+    assert remove_pet_use_case.remove_param["pet_id"] == view_args["pet_id"]
 
     # Testing outputs
     assert response.status_code == 200

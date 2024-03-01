@@ -13,17 +13,19 @@ def test_route():
     alter_user_use_case = AlterUserSpy(UserRepositorySpy())
     alter_user_router = AlterUserController(alter_user_use_case)
 
-    view_arg = {"user_id": faker.random_number(digits=5)}
+    view_args = {"user_id": faker.random_number(digits=5)}
     attributes = {
         "user_name": faker.name(),
         "password": faker.name(),
     }
 
-    response = alter_user_router.route(HttpRequest(body=attributes, view_arg=view_arg))
+    response = alter_user_router.route(
+        HttpRequest(body=attributes, view_args=view_args)
+    )
     print(response)
 
     # Testing inputs
-    assert alter_user_use_case.alter_param["user_id"] == view_arg["user_id"]
+    assert alter_user_use_case.alter_param["user_id"] == view_args["user_id"]
     assert alter_user_use_case.alter_param["user_name"] == attributes["user_name"]
     assert alter_user_use_case.alter_param["password"] == attributes["password"]
 

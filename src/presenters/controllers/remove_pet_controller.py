@@ -16,7 +16,7 @@ class RemovePetController(RouteInterface):
 
         response = None
 
-        pet_id = http_request.view_arg["pet_id"]
+        pet_id = http_request.view_args["pet_id"]
 
         response = self.remove_pet_use_case.remove(pet_id=pet_id)
 

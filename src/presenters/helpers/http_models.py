@@ -4,10 +4,10 @@ from typing import Dict
 class HttpRequest:
     """Class to http__request representation"""
 
-    def __init__(self, header: Dict = None, body: Dict = None, view_arg: Dict = None):
+    def __init__(self, header: Dict = None, body: Dict = None, view_args: Dict = None):
         self.header = header
         self.body = body
-        self.view_arg = view_arg
+        self.view_args = view_args
 
     def __repr__(self):
         return f"HttpRequest (header={self.header}, body={self.body}, view_arg={self.view_arg})"

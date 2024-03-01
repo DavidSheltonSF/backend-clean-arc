@@ -16,7 +16,7 @@ class RemoveUserController(RouteInterface):
 
         response = None
 
-        user_id = http_request.view_arg["user_id"]
+        user_id = http_request.view_args["user_id"]
 
         response = self.remove_user_use_case.remove(user_id=user_id)
 

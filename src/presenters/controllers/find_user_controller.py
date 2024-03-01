@@ -24,21 +24,21 @@ class FindUserController(RouteInterface):
 
         response = None
 
-        # Check if there is a view_arg in http_request
-        if http_request.view_arg:
+        # Check if there is a view_args in http_request
+        if http_request.view_args:
 
-            view_arg = http_request.view_arg.keys()
+            view_args = http_request.view_args.keys()
 
-            # Check if user_id is in view_arg
-            if "user_id" in view_arg:
-                user_id = http_request.view_arg["user_id"]
+            # Check if user_id is in view_args
+            if "user_id" in view_args:
+                user_id = http_request.view_args["user_id"]
                 response = self.find_user_use_case.by_id(
                     user_id=user_id,
                 )
 
-            # Check if user_name is in view_arg
-            elif "user_name" in view_arg:
-                user_name = http_request.view_arg["user_name"]
+            # Check if user_name is in view_args
+            elif "user_name" in view_args:
+                user_name = http_request.view_args["user_name"]
                 response = self.find_user_use_case.by_name(user_name=user_name)
 
             else:

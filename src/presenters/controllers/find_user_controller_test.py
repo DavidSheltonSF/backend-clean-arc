@@ -12,12 +12,14 @@ def test_route_passing_id():
 
     find_user_use_case = FindUserSpy(UserRepositorySpy())
     find_user_controller = FindUserController(find_user_use_case)
-    http_request = HttpRequest(view_arg={"user_id": faker.random_number()})
+    http_request = HttpRequest(view_args={"user_id": faker.random_number()})
 
     response = find_user_controller.route(http_request)
 
     # Testing inputs
-    assert find_user_use_case.by_id_param["user_id"] == http_request.view_arg["user_id"]
+    assert (
+        find_user_use_case.by_id_param["user_id"] == http_request.view_args["user_id"]
+    )
 
     # Testing outputs
     assert response.status_code == 200
@@ -29,14 +31,14 @@ def test_route_passing_name():
 
     find_user_use_case = FindUserSpy(UserRepositorySpy())
     find_user_controller = FindUserController(find_user_use_case)
-    http_request = HttpRequest(view_arg={"user_name": faker.name()})
+    http_request = HttpRequest(view_args={"user_name": faker.name()})
 
     response = find_user_controller.route(http_request)
 
     # Testing inputs
     assert (
         find_user_use_case.by_name_param["user_name"]
-        == http_request.view_arg["user_name"]
+        == http_request.view_args["user_name"]
     )
 
     # Testing outputs

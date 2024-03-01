@@ -19,7 +19,7 @@ def flask_adapter(request: any, api_route: Type[Route]) -> any:
     # Try convert user_id or pet_it into integer
     try:
 
-        view_args = request.view_args()
+        view_args = request.view_args
 
         # Check if pet_id is in view_args
         if "pet_id" in view_args.keys():

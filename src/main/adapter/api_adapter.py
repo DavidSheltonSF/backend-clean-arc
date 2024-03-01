@@ -19,15 +19,15 @@ def flask_adapter(request: any, api_route: Type[Route]) -> any:
     # Try convert user_id or pet_it into integer
     try:
 
-        query_string_params = request.args.to_dict()
+        view_args = request.view_args()
 
-        # Check if pet_id is in query_string_params
-        if "pet_id" in query_string_params.keys():
-            query_string_params["pet_id"] = int(query_string_params["pet_id"])
+        # Check if pet_id is in view_args
+        if "pet_id" in view_args.keys():
+            view_args["pet_id"] = int(view_args["pet_id"])
 
         # Check if user_id is in query_string_params
-        if "user_id" in query_string_params.keys():
-            query_string_params["user_id"] = int(query_string_params["user_id"])
+        if "user_id" in view_args.keys():
+            view_args["user_id"] = int(view_args["user_id"])
 
     # If coldn't convert IDs
     except:
@@ -40,7 +40,7 @@ def flask_adapter(request: any, api_route: Type[Route]) -> any:
     http_request = HttpRequest(
         header=request.headers,
         body=request.get_json(silent=True),
-        view_arg=request.view_args,
+        view_arg=view_args,
     )
 
     # Try do a request to route

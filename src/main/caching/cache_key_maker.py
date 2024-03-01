@@ -1,3 +1,5 @@
+# disable=unused-argument
+
 from flask import request
 
 

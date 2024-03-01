@@ -15,7 +15,7 @@ class FindPetController(RouteInterface):
         """Method to call use case"""
 
         response = None
-
+        print(f"Args ->{http_request.view_arg}")
         # Check if there is a view_arg in http_request
         if http_request.view_arg:
             view_arg = http_request.view_arg.keys()
@@ -28,6 +28,7 @@ class FindPetController(RouteInterface):
                 response = self.find_pet_use_case.by_pet_id(
                     pet_id=pet_id,
                 )
+                print(response)
 
             # check if user_id is in view_arg
             elif "user_id" in view_arg:

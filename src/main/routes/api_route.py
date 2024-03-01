@@ -1,3 +1,4 @@
+# disable=unused-argument
 from flask import Blueprint, jsonify, request
 from src.main.composer import register_user_composer
 from src.main.composer import register_pet_composer
@@ -40,6 +41,9 @@ def authentification():
     return jsonify({"Error": "user not found"}), 400
 
 
+# User Routes
+
+
 @api_routes_bp.route("/api/users", methods=["POST"])
 # #token_verify
 def register_user():
@@ -53,36 +57,6 @@ def register_user():
             "Type": "users",
             "id": response.body.id,
             "attributes": {"user_name": response.body.name},
-        }
-        return jsonify({"data": message}), response.status_code
-
-    # Handling Erros
-    return (
-        jsonify(
-            {"error": {"status": response.status_code, "title": response.body["error"]}}
-        ),
-        response.status_code,
-    )
-
-
-@api_routes_bp.route("/api/pets", methods=["POST"])
-# token_verify
-def register_pet():
-    """Register pet route"""
-    message = {}
-    response = flask_adapter(request=request, api_route=register_pet_composer())
-
-    # Check that an error has not occurred
-    if response.status_code < 300:
-        message = {
-            "Type": "pets",
-            "id": response.body.id,
-            "attributes": {
-                "pet_name": response.body.name,
-                "specie": response.body.specie,
-                "age": response.body.age,
-            },
-            "relationships": {"owner": {"type": "users", "id": response.body.user_id}},
         }
         return jsonify({"data": message}), response.status_code
 
@@ -166,6 +140,145 @@ def find_user_by_id(user_id):
     )
 
 
+@api_routes_bp.route("/api/users/<int:user_id>/pets/", methods=["GET"])
+@cache.cached(make_cache_key=make_my_cache_key)
+# token_verify
+def find_user_pet_all(user_id):
+    """Find user route"""
+    message = {}
+
+    response = flask_adapter(request=request, api_route=find_pet_composer())
+
+    # Check that an error has not occurred
+    if response.status_code < 300:
+        message = []
+
+        for element in response.body:
+            message.append(
+                {
+                    "type": "pet",
+                    "id": element.id,
+                    "attributes": {"pet_name": element.name, "age": element.age},
+                    "relationships": {"user_id": element.user_id},
+                }
+            )
+
+        return jsonify({"data": message}), response.status_code
+
+    # Handling Erros
+    return jsonify(
+        {"error": {"status": response.status_code, "title": response.body["error"]}}
+    )
+
+
+@api_routes_bp.route("/api/users/<int:user_id>/pets/<pet_id>", methods=["GET"])
+@cache.cached(make_cache_key=make_my_cache_key)
+# token_verify
+def find_user_pet_by_id(user_id, pet_id):
+    """Find user route"""
+    message = {}
+
+    response = flask_adapter(request=request, api_route=find_pet_composer())
+
+    # Check that an error has not occurred
+    if response.status_code < 300:
+        message = []
+
+        for element in response.body:
+            message.append(
+                {
+                    "type": "pet",
+                    "id": element.id,
+                    "attributes": {"pet_name": element.name, "age": element.age},
+                    "relationships": {"user_id": element.user_id},
+                }
+            )
+
+        return jsonify({"data": message}), response.status_code
+
+    # Handling Erros
+    return jsonify(
+        {"error": {"status": response.status_code, "title": response.body["error"]}}
+    )
+
+
+@api_routes_bp.route("/api/users/<int:user_id>", methods=["PUT"])
+# token_verify
+def alter_user(user_id):
+    """Find user route"""
+    message = {}
+    response = flask_adapter(request=request, api_route=alter_user_composer())
+    print(request.get_json())
+    # Check that an error has not occurred
+    if response.status_code < 300:
+
+        if response.body:
+
+            message = {"Success": True, "Message": "User updated succesfuly"}
+
+        return jsonify({"data": message}), response.status_code
+
+    # Handling Erros
+    return jsonify(
+        {"error": {"status": response.status_code, "title": response.body["error"]}}
+    )
+
+
+# Pet Routes
+
+
+@api_routes_bp.route("/api/pets", methods=["POST"])
+# token_verify
+def register_pet():
+    """Register pet route"""
+    message = {}
+    response = flask_adapter(request=request, api_route=register_pet_composer())
+
+    # Check that an error has not occurred
+    if response.status_code < 300:
+        message = {
+            "Type": "pets",
+            "id": response.body.id,
+            "attributes": {
+                "pet_name": response.body.name,
+                "specie": response.body.specie,
+                "age": response.body.age,
+            },
+            "relationships": {"owner": {"type": "users", "id": response.body.user_id}},
+        }
+        return jsonify({"data": message}), response.status_code
+
+    # Handling Erros
+    return (
+        jsonify(
+            {"error": {"status": response.status_code, "title": response.body["error"]}}
+        ),
+        response.status_code,
+    )
+
+
+@api_routes_bp.route("/api/users/<int:user_id>", methods=["DELETE"])
+# token_verify
+def remove_user(user_id):
+    """Remove user route"""
+    message = {}
+    response = flask_adapter(request=request, api_route=remove_user_composer())
+
+    # Check that an error has not occurred
+    if response.status_code < 300:
+
+        if response.body:
+
+            message = {"Success": True, "Message": "User removed succesfuly"}
+
+        return jsonify(message), response.status_code
+
+    # Handling Erros
+    return jsonify(
+        {"error": {"status": response.status_code, "title": response.body["error"]}}
+    )
+
+
 @api_routes_bp.route("/api/pets/", methods=["GET"])
 @cache.cached(make_cache_key=make_my_cache_key)
 # #token_verify
@@ -238,28 +351,6 @@ def find_pet_by_id(pet_id):
     )
 
 
-@api_routes_bp.route("/api/users/<int:user_id>", methods=["PUT"])
-# token_verify
-def alter_user(user_id):
-    """Find user route"""
-    message = {}
-    response = flask_adapter(request=request, api_route=alter_user_composer())
-    print(request.get_json())
-    # Check that an error has not occurred
-    if response.status_code < 300:
-
-        if response.body:
-
-            message = {"Success": True, "Message": "User updated succesfuly"}
-
-        return jsonify({"data": message}), response.status_code
-
-    # Handling Erros
-    return jsonify(
-        {"error": {"status": response.status_code, "title": response.body["error"]}}
-    )
-
-
 @api_routes_bp.route("/api/pets/<int:pet_id>", methods=["PUT"])
 # token_verify
 def alter_pet(pet_id):
@@ -275,28 +366,6 @@ def alter_pet(pet_id):
             message = {"Success": True, "Message": "Pet updated succesfuly"}
 
         return jsonify({"data": message}), response.status_code
-
-    # Handling Erros
-    return jsonify(
-        {"error": {"status": response.status_code, "title": response.body["error"]}}
-    )
-
-
-@api_routes_bp.route("/api/users/<int:user_id>", methods=["DELETE"])
-# token_verify
-def remove_user(user_id):
-    """Remove user route"""
-    message = {}
-    response = flask_adapter(request=request, api_route=remove_user_composer())
-
-    # Check that an error has not occurred
-    if response.status_code < 300:
-
-        if response.body:
-
-            message = {"Success": True, "Message": "User removed succesfuly"}
-
-        return jsonify(message), response.status_code
 
     # Handling Erros
     return jsonify(

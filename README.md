@@ -36,13 +36,15 @@ Aprendi que esse tipo de arquitetura possui alguns benefícios:
 
 - Flexibilidade e Adaptabilidade: Um sistema feito pela Clean Architecture, não está preso a um banco de dados, uma API, ou um framework específico.
 
-## Rotas
+## Recursos
 
-### *api/users*
+### **Users**
 
-**GET:**
+**Obter todos os Usuários**
 
-*api/users/*
+*Método: Get*
+
+*Rota: api/users/*
 
 SUCESSO:
 ```
@@ -66,8 +68,11 @@ SUCESSO:
 }
 ```
 
+**Obter Usuário específico**
 
-*api/users/<int:user_id>*
+*Método: Get*
+
+*Rota: api/users/<int:user_id>*
 
 SUCESSO:
 ```
@@ -84,7 +89,9 @@ SUCESSO:
 }
 ```
 
-**POST:**
+**Cadastrar um Usuário**
+
+*Método: Post*
 
 Corpo da Requisição:
 ```
@@ -107,9 +114,11 @@ SUCESSO:
 }
 ```
 
-**PUT:**
+**Atualizar um Usuário**
 
-*api/users/<int:user_id>*
+*Método: Put*
+
+*Rota: api/users/<int:user_id>*
 
 Corpo da Requisição:
 ```
@@ -128,7 +137,9 @@ SUCESSO:
 }
 ```
 
-**DELETE:**
+**Deletar um Usuário**
+
+*Método: Delete*
 
 *api/users/<int:user_id>*
 
@@ -140,11 +151,11 @@ SUCESSO:
 }
 ```
 
-### *api/pets*
+**Obter todos os Pets**
 
-**GET:**
+*Método: Get*
 
-*api/pets/*
+*Rota api/pets/*
 
 SUCESSO:
 ```
@@ -176,7 +187,11 @@ SUCESSO:
 }
 ```
 
-*api/pets/<int:pet_id>*
+**Obter um Pet específico**
+
+*Método: Get*
+
+*Rota: api/pets/<int:pet_id>*
 
 SUCESSO:
 ```
@@ -197,7 +212,11 @@ SUCESSO:
 }
 ```
 
-**POST:**
+**Cadastrar um Pet**
+
+*Método: Post*
+
+*Rota: api/pets/<int:pet_id>*
 
 Corpo da Requisição:
 ```
@@ -232,9 +251,11 @@ SUCESSO:
 }
 ```
 
-**PUT:**
+**Atualizar um Pet específico**
 
-*api/pets/<int:pet_id>*
+*Método: Put*
+
+*Rota: api/pets/<int:pet_id>*
 
 Corpo da Requisição:
 ```
@@ -256,7 +277,9 @@ SUCESSO:
 }
 ```
 
-**DELETE:**
+**Deletar um Pet**
+
+*Método: Delete*
 
 *api/pets/<int:pet_id>*
 

@@ -89,6 +89,67 @@ SUCESSO:
 }
 ```
 
+**Obter todos os Pets de um Usuário**
+
+*Método: Get*
+
+*Rota: api/users/<int:user_id>/pets
+
+SUCESSO:
+```
+{
+  "data": [
+    {
+      "attributes": {
+        "age": 5,
+        "pet_name": "Duque II"
+      },
+      "id": 1,
+      "relationships": {
+        "user_id": 1
+      },
+      "type": "pet"
+    },
+    {
+      "attributes": {
+        "age": 3,
+        "pet_name": "Mel"
+      },
+      "id": 2,
+      "relationships": {
+        "user_id": 1
+      },
+      "type": "pet"
+    }
+  ]
+}
+```
+
+**Obter um Pet específico de um Usuário**
+
+*Método: Get*
+
+*Rota: api/users/<int:user_id>/pets/<int:pet_id>
+
+SUCESSO:
+```
+{
+  "data": [
+    {
+      "attributes": {
+        "age": 5,
+        "pet_name": "Duque II"
+      },
+      "id": 1,
+      "relationships": {
+        "user_id": 1
+      },
+      "type": "pet"
+    },
+  ]
+}
+```
+
 **Cadastrar um Usuário**
 
 *Método: Post*
@@ -209,6 +270,25 @@ SUCESSO:
       "type": "pet"
     },
   ]
+}
+```
+
+**Obter um Usuário (cuidador) de um Pet**
+
+*Método: Get*
+
+*Rota: api/pets/<int:pet_id>/user*
+
+SUCESSO:
+```
+{
+  "data": {
+    "Type": "users",
+    "attributes": {
+      "user_name": "Marcos"
+    },
+    "id": 1
+  }
 }
 ```
 

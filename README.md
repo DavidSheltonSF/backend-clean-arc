@@ -1,4 +1,4 @@
-# Sobre:
+# Sobre o projeto:
 
 Uma API de estudo para o CRUD de dados de Usuários e seus Pets.
 

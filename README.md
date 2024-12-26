@@ -23,7 +23,7 @@ Uma API de estudo para o CRUD de dados de Usuários e seus Pets.
 - werkzeug (converter senhas em hash)
 - flask_caching (Armazenamento em cache)
 
-Este é um projeto backend que estou desenvolvi a partir da playlist de Clean Architecture com Python do canal Programador Lhama.
+Este é um projeto backend que desenvolvi a partir da playlist de Clean Architecture com Python do canal Programador Lhama, no Youtube.
 
 
 ## Sobre a Arquitetura
